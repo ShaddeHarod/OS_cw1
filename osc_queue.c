@@ -1,5 +1,6 @@
 #include "osc_queue.h"
 
+
 //if the queue is empty, return -1
 int getCount(struct queue *my_arr){
 	return my_arr -> count;
@@ -67,3 +68,4 @@ void removeLast(struct queue *my_arr){
 }
 
 void main(){}
+

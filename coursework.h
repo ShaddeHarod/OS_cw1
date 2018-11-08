@@ -13,4 +13,8 @@ struct element generateProcess();
 void runProcess(int index, int t);
 
 void runNonPreemptiveJob(struct queue *my_arr, int index);
+
 void runPreemptiveJob(struct queue *my_arr, int index);
+
+void runPreemptiveJob(struct queue *my_arr, int index);
+
