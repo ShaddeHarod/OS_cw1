@@ -48,7 +48,7 @@ void runNonPreemptiveJob(struct queue *my_arr, int index)
 
 void runPreemptiveJob(struct queue *my_arr, int index)
 {
-	long int iDifference = 0;
+	//long int iDifference = 0;
 	int t = my_arr->e[index].pid_time;
 
 	int iBurstTime = t > TIME_SLICE ? TIME_SLICE : t;
@@ -59,8 +59,6 @@ void runPreemptiveJob(struct queue *my_arr, int index)
 	runProcess(my_arr->e[index].pid, iBurstTime);
 	
 	my_arr->e[index].pid_time = my_arr->e[index].pid_time - iBurstTime;
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 5bad53d0b84606ea14833c9c0c6cd51d76b9dd6d
+

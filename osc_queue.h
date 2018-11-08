@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <sys/time.h>
-
+#include <unistd.h>
+#include <windows.h>
 struct element
 {
 	int pid;
