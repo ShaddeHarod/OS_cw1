@@ -1,0 +1,56 @@
+Initialising ...
+Init: successfully malloc element with size of 5 ...
+There are 0 elements in total
+#[0]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[1]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+Generating processes for SJF ...
+SJF: add first
+There are 1 elements in total
+#[0]: 0 running-time 4 created-time 1540805817 sec 505575 usec 2 priority
+#[1]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+SJF: add new largest
+There are 2 elements in total
+#[0]: 1 running-time 10 created-time 1540805818 sec 507799 usec 0 priority
+#[1]: 0 running-time 4 created-time 1540805817 sec 505575 usec 2 priority
+#[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+SJF: add new largest
+There are 3 elements in total
+#[0]: 2 running-time 10 created-time 1540805819 sec 508797 usec 1 priority
+#[1]: 1 running-time 10 created-time 1540805818 sec 507799 usec 0 priority
+#[2]: 0 running-time 4 created-time 1540805817 sec 505575 usec 2 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+SJF: add new largest
+There are 4 elements in total
+#[0]: 3 running-time 10 created-time 1540805820 sec 509799 usec 2 priority
+#[1]: 2 running-time 10 created-time 1540805819 sec 508797 usec 1 priority
+#[2]: 1 running-time 10 created-time 1540805818 sec 507799 usec 0 priority
+#[3]: 0 running-time 4 created-time 1540805817 sec 505575 usec 2 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+There are 5 elements in total
+#[0]: 3 running-time 10 created-time 1540805820 sec 509799 usec 2 priority
+#[1]: 2 running-time 10 created-time 1540805819 sec 508797 usec 1 priority
+#[2]: 1 running-time 10 created-time 1540805818 sec 507799 usec 0 priority
+#[3]: 4 running-time 7 created-time 1540805821 sec 509906 usec 1 priority
+#[4]: 0 running-time 4 created-time 1540805817 sec 505575 usec 0 priority
+Running the processes using SJF ...
+Running: #4 for 4 sec ...
+C: 1540805817 S: 1540805822 E: 1540805826 R:5004 T:9005
+Running: #3 for 7 sec ...
+C: 1540805821 S: 1540805826 E: 1540805833 R:5000 T:12001
+Running: #2 for 10 sec ...
+C: 1540805818 S: 1540805833 E: 1540805843 R:15003 T:25003
+Running: #1 for 10 sec ...
+C: 1540805819 S: 1540805843 E: 1540805853 R:24002 T:34002
+Running: #0 for 10 sec ...
+C: 1540805820 S: 1540805853 E: 1540805863 R:33001 T:43001
+Average response time: 16402.00 milliseconds
+Average turn around time: 24602.40 milliseconds
