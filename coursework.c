@@ -1,6 +1,5 @@
 #include "coursework.h"
 
-int counter = 0;
 
 int generateProcessTime()
 {
@@ -54,11 +53,11 @@ void runPreemptiveJob(struct queue *my_arr, int index)
 	int iBurstTime = t > TIME_SLICE ? TIME_SLICE : t;
 
 	printf("Q #%d >>> pid: %d remain time %d, will be running for %d sec\n", 
-		my_arr->e[index].pid_priority, my_arr->e[index].pid, t, iBurstTime);
+		my_arr -> e[index].pid_priority, my_arr -> e[index].pid, t, iBurstTime);
 	
 	runProcess(my_arr->e[index].pid, iBurstTime);
 	
-	my_arr->e[index].pid_time = my_arr->e[index].pid_time - iBurstTime;
+	my_arr -> e[index].pid_time = my_arr -> e[index].pid_time - iBurstTime;
 
 }
 

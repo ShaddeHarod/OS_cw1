@@ -1,7 +1,9 @@
 #include "coursework.h"
+#include "coursework.c"
+#include "osc_queue.c"
 #define MAX_PROCESSES 5
 
-struct queue *my_arr;
+
 
 
 void fifo(struct queue *my_arr){
@@ -13,7 +15,7 @@ void fifo(struct queue *my_arr){
 		if(addFirst(my_arr,e) == 1){
 			exit(-1);
 		}
-		printf("Add: pid %d into the queue with time %d\n",my_arr -> e[i].pid, my_arr -> e[i].pid_time);
+		printf("Add: pid %d into the queue with time %d\n",e -> pid, e -> pid_time);
 	}
 }
 
@@ -34,23 +36,27 @@ void lifo(struct queue *my_arr){
 
 
 int main(){
+	
 	int i;
-	if(init(my_arr, MAX_PROCESSES) == 1){
+	struct queue *my_Arr = NULL;
+	my_Arr = (struct queue*)malloc(sizeof(struct queue));
+	if(init(my_Arr, MAX_PROCESSES) == 1){
 		exit(-1);
 	}
-
-	fifo(my_arr);
+	printAll(my_Arr);
+	fifo(my_Arr);
 	for(i = 0; i < MAX_PROCESSES; i++){
-		removeLast(my_arr);
-		printAll(my_arr);
+		printAll(my_Arr);
+		removeLast(my_Arr);
+		
 	}
-	
-	lifo(my_arr);
+	printAll(my_Arr);
+	lifo(my_Arr);
 	for(i = 0; i < MAX_PROCESSES; i++){
-		removeLast(my_arr);
-		printAll(my_arr);
+		printAll(my_Arr);
+		removeLast(my_Arr);
 	}
-
-
+	printAll(my_Arr);
+	freeAll(my_Arr);
 
 }

@@ -1,19 +1,21 @@
 #include "osc_queue.h"
 
-
-
 int getCount(struct queue *my_arr){
 	return my_arr -> count;
 }
 
 int init(struct queue *my_arr, int arr_size){
-	my_arr -> max = arr_size;
 	printf("Initialising ...\n");
-	if((my_arr -> e = (struct element*) malloc (sizeof(struct element) * my_arr -> max)) == NULL){
+
+	
+	if((my_arr -> e = (struct element*) malloc (sizeof(struct element) * arr_size)) == NULL){
 		printf("Init: malloc failed!\n");
 		return 1;
 	}
-	printf("Init: successfully malloc element with size of %d ...\n", arr_size);
+
+	
+	my_arr -> max = arr_size;
+	printf("Init: successfully malloc element with size of %d ...\n", my_arr -> max);
 	my_arr -> count = 0;
 	return 0;
 }
@@ -50,12 +52,9 @@ int addLast(struct queue *my_arr, struct element *new_e){
 }
 
 void freeAll(struct queue *my_arr){
-	int i;
-	for(i = 0; i < getCount(my_arr); i++){
-		free(&(my_arr -> e[i]));	
-	}
+	
 	free(my_arr -> e);
-	//free(my_arr);
+	free(my_arr);
 }
 
 
@@ -79,5 +78,4 @@ void removeLast(struct queue *my_arr){
 	my_arr -> count--;
 }
 
-int main(){return 1;}
 
