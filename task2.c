@@ -74,7 +74,7 @@ void printToFile(struct queue *my_arr,FILE *fpWrite){
 }
 
 int main(){
-	FILE *fpWrite = fopen("task4.txt","w");
+	FILE *fpWrite = fopen("task2.txt","w");
 	if(fpWrite == NULL){
 		printf("Open file failed!\n");
 		return -1;
