@@ -1,0 +1,56 @@
+Initialising ...
+Init: successfully malloc element with size of 5 ...
+There are 0 elements in total
+#[0]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[1]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+Generating processes for SJF ...
+SJF: add first:
+SJF: add new largest
+There are 1 elements in total
+#[0]: 0 running-time 4 created-time 1541736648 sec 221430 usec 1 priority
+#[1]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+SJF: add new largest
+There are 2 elements in total
+#[0]: 1 running-time 8 created-time 1541736649 sec 221617 usec 1 priority
+#[1]: 0 running-time 4 created-time 1541736648 sec 221430 usec 1 priority
+#[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+There are 3 elements in total
+#[0]: 1 running-time 8 created-time 1541736649 sec 221617 usec 1 priority
+#[1]: 2 running-time 4 created-time 1541736650 sec 221790 usec 1 priority
+#[2]: 0 running-time 4 created-time 1541736648 sec 221430 usec 1 priority
+#[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+There are 4 elements in total
+#[0]: 1 running-time 8 created-time 1541736649 sec 221617 usec 1 priority
+#[1]: 3 running-time 7 created-time 1541736651 sec 221992 usec 0 priority
+#[2]: 2 running-time 4 created-time 1541736650 sec 221790 usec 1 priority
+#[3]: 0 running-time 4 created-time 1541736648 sec 221430 usec 1 priority
+#[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
+SJF: add new largest
+There are 5 elements in total
+#[0]: 4 running-time 10 created-time 1541736652 sec 222164 usec 1 priority
+#[1]: 1 running-time 8 created-time 1541736649 sec 221617 usec 1 priority
+#[2]: 3 running-time 7 created-time 1541736651 sec 221992 usec 0 priority
+#[3]: 2 running-time 4 created-time 1541736650 sec 221790 usec 1 priority
+#[4]: 0 running-time 4 created-time 1541736648 sec 221430 usec 1 priority
+Running the processes using SJF ...
+Running: #4 for 4 sec ...
+C: 1541736648221 S: 1541736653222 E: 1541736657222 R: 5000 T: 9001
+Running: #3 for 4 sec ...
+C: 1541736650221 S: 1541736657222 E: 1541736661222 R: 7000 T: 11000
+Running: #2 for 7 sec ...
+C: 1541736651221 S: 1541736661222 E: 1541736668222 R: 10000 T: 17000
+Running: #1 for 8 sec ...
+C: 1541736649221 S: 1541736668222 E: 1541736676223 R: 19001 T: 27001
+Running: #0 for 10 sec ...
+C: 1541736652222 S: 1541736676223 E: 1541736686223 R: 24000 T: 34001
+Average response time: 13000.20 milliseconds.
+Average turn around time: 19600.60 milliseconds

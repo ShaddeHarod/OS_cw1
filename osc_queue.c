@@ -69,7 +69,6 @@ void printAll(struct queue *my_arr){
 }	
 
 void removeLast(struct queue *my_arr){
-	printf("Remove: %d from the queue index %d\n", my_arr -> e[getCount(my_arr) - 1].pid, getCount(my_arr) - 1);
 	my_arr -> e[getCount(my_arr) - 1].pid = 0;
 	my_arr -> e[getCount(my_arr) - 1].pid_time = 0;
 	my_arr -> e[getCount(my_arr) - 1].created_time.tv_sec = 0;
