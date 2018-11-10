@@ -15,16 +15,6 @@ void generatePQ(struct queue **PQ){
 
 double average(double sum){return (sum / (double) MAX_PROCESSES);}
 
-int checkAllFinished(struct queue *arr){
-	int i;
-	int flag = true;
-	for(i = 0; i < getCount(arr); i++){
-		if(arr -> e[i].pid_time == 0){ flag = flag && true;}	
-		else {flag = flag && false;}
-	}
-	return flag;
-}
-
 long int getMilliSeconds(struct timeval time){ return time.tv_sec;}
 
 void runPQ(struct queue **my_Arr,double *response_Sum, double *turnaround_Sum){
@@ -32,20 +22,21 @@ void runPQ(struct queue **my_Arr,double *response_Sum, double *turnaround_Sum){
 	//c:created-time s: response timestamp e:turn around time stamp r:response time t:turn around time	
 	int i;
 	long int r, t;
-	int counter;
+	//counter is for record which process should be executed, checkFinish is for checking if all processes in the queue finished, num is to count the number of processes in one queue
+	int counter, checkFinish, num;
 	struct timeval *start;
 	struct timeval *end_S; 
 	struct timeval *end_E;
 		
 	for(i = 0; i < PRIORITY;i++){
-
-		int j = getCount(my_Arr[i]);
+		num = getCount(my_Arr[i]);
 		counter = 0;
-		start = (struct timeval *)malloc(sizeof(struct timeval) * j);
-		end_S = (struct timeval *)malloc(sizeof(struct timeval) * j);
-		end_E = (struct timeval *)malloc(sizeof(struct timeval) * j);
+		checkFinish = 0;
+		start = (struct timeval *)malloc(sizeof(struct timeval) * num);
+		end_S = (struct timeval *)malloc(sizeof(struct timeval) * num);
+		end_E = (struct timeval *)malloc(sizeof(struct timeval) * num);
 		
-		while(!checkAllFinished(my_Arr[i])){
+		while(checkFinish != num){
 			
 			//record start of each process, only once. start, c(start)
 			if(start[counter].tv_sec == 0){
@@ -69,8 +60,10 @@ void runPQ(struct queue **my_Arr,double *response_Sum, double *turnaround_Sum){
 				t = getDifferenceInMilliSeconds(start[counter], end_E[counter]);
 				*turnaround_Sum = *turnaround_Sum + (double)t;
 				printf("Q: %d P: %d C: %ld E: %ld T: %ld\n", i, my_Arr[i] -> e[counter].pid, getMilliSeconds(start[counter]), getMilliSeconds(end_E[counter]), t);
+				checkFinish++;
+				
 			}
-			counter = (counter + 1) % getCount(my_Arr[i]);
+			counter = (counter + 1) % num;
 			
 			//if the process is finished, get end_E and then t, update response_Sum and turnaround_Sum
 		}
