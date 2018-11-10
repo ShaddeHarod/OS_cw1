@@ -13,11 +13,11 @@ long int getDifferenceInMilliSeconds(struct timeval start, struct timeval end);
 
 struct element generateProcess();
 
-void runProcess(int index, int t, FILE *fpWrite);
+void runProcess(int index, int t);
 
-void runNonPreemptiveJob(struct queue *my_arr, int index, FILE *fpWrite);
+void runNonPreemptiveJob(struct queue *my_arr, int index);
 
-void runPreemptiveJob(struct queue *my_arr, int index, FILE *fpWrite);
+void runPreemptiveJob(struct queue *my_arr, int index);
 
 int counter = 0;
 

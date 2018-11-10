@@ -7,50 +7,50 @@ There are 0 elements in total
 #[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 Generating processes for SJF ...
-SJF: add first:
+SJF: add first
 SJF: add new largest
 There are 1 elements in total
-#[0]: 0 running-time 4 created-time 1541746023 sec 617500 usec 1 priority
+#[0]: 0 running-time 4 created-time 1541840581 sec 541394 usec 1 priority
 #[1]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 SJF: add new largest
 There are 2 elements in total
-#[0]: 1 running-time 8 created-time 1541746024 sec 617740 usec 1 priority
-#[1]: 0 running-time 4 created-time 1541746023 sec 617500 usec 1 priority
+#[0]: 1 running-time 8 created-time 1541840582 sec 541519 usec 1 priority
+#[1]: 0 running-time 4 created-time 1541840581 sec 541394 usec 1 priority
 #[2]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 There are 3 elements in total
-#[0]: 1 running-time 8 created-time 1541746024 sec 617740 usec 1 priority
-#[1]: 2 running-time 4 created-time 1541746025 sec 617900 usec 1 priority
-#[2]: 0 running-time 4 created-time 1541746023 sec 617500 usec 1 priority
+#[0]: 1 running-time 8 created-time 1541840582 sec 541519 usec 1 priority
+#[1]: 2 running-time 4 created-time 1541840583 sec 541638 usec 1 priority
+#[2]: 0 running-time 4 created-time 1541840581 sec 541394 usec 1 priority
 #[3]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 #[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 There are 4 elements in total
-#[0]: 1 running-time 8 created-time 1541746024 sec 617740 usec 1 priority
-#[1]: 3 running-time 7 created-time 1541746026 sec 639013 usec 0 priority
-#[2]: 2 running-time 4 created-time 1541746025 sec 617900 usec 1 priority
-#[3]: 0 running-time 4 created-time 1541746023 sec 617500 usec 1 priority
+#[0]: 1 running-time 8 created-time 1541840582 sec 541519 usec 1 priority
+#[1]: 3 running-time 7 created-time 1541840584 sec 541790 usec 0 priority
+#[2]: 2 running-time 4 created-time 1541840583 sec 541638 usec 1 priority
+#[3]: 0 running-time 4 created-time 1541840581 sec 541394 usec 1 priority
 #[4]: 0 running-time 0 created-time 0 sec 0 usec 0 priority
 SJF: add new largest
 There are 5 elements in total
-#[0]: 4 running-time 10 created-time 1541746027 sec 639196 usec 1 priority
-#[1]: 1 running-time 8 created-time 1541746024 sec 617740 usec 1 priority
-#[2]: 3 running-time 7 created-time 1541746026 sec 639013 usec 0 priority
-#[3]: 2 running-time 4 created-time 1541746025 sec 617900 usec 1 priority
-#[4]: 0 running-time 4 created-time 1541746023 sec 617500 usec 1 priority
+#[0]: 4 running-time 10 created-time 1541840585 sec 541981 usec 1 priority
+#[1]: 1 running-time 8 created-time 1541840582 sec 541519 usec 1 priority
+#[2]: 3 running-time 7 created-time 1541840584 sec 541790 usec 0 priority
+#[3]: 2 running-time 4 created-time 1541840583 sec 541638 usec 1 priority
+#[4]: 0 running-time 4 created-time 1541840581 sec 541394 usec 1 priority
 Running the processes using SJF ...
 Running: #4 for 4 sec ...
-C: 1541746023617 S: 1541746028639 E: 1541746032639 R: 5021 T: 9021
+C: 1541840581 S: 1541840586 E: 1541840590 R: 5000 T: 9000
 Running: #3 for 4 sec ...
-C: 1541746025617 S: 1541746032639 E: 1541746036639 R: 7021 T: 11021
+C: 1541840583 S: 1541840590 E: 1541840594 R: 7000 T: 11000
 Running: #2 for 7 sec ...
-C: 1541746026639 S: 1541746036639 E: 1541746043639 R: 10000 T: 17000
+C: 1541840584 S: 1541840594 E: 1541840601 R: 10000 T: 17000
 Running: #1 for 8 sec ...
-C: 1541746024617 S: 1541746043639 E: 1541746051640 R: 19022 T: 27022
+C: 1541840582 S: 1541840601 E: 1541840609 R: 19001 T: 27001
 Running: #0 for 10 sec ...
-C: 1541746027639 S: 1541746051640 E: 1541746061640 R: 24000 T: 34000
-Average response time: 13012.80 milliseconds.
-Average turn around time: 19612.80 milliseconds
+C: 1541840585 S: 1541840609 E: 1541840619 R: 24000 T: 34000
+Average response time: 13000.20 milliseconds.
+Average turn around time: 19600.20 milliseconds

@@ -55,6 +55,8 @@ void freeAll(struct queue *my_arr){
 	
 	free(my_arr -> e);
 	free(my_arr);
+	my_arr -> e = NULL;
+	my_arr = NULL;
 }
 
 

@@ -11,6 +11,7 @@ int generatePriority()
 	return (rand() % PRIORITY);
 }
 
+	
 long int getDifferenceInMilliSeconds(struct timeval start, struct timeval end)
 {
 	long int iSeconds = end.tv_sec - start.tv_sec;
@@ -34,21 +35,18 @@ struct element generateProcess()
 	return e;	
 }
 
-void runProcess(int index, int t, FILE *fpWrite)
+void runProcess(int index, int t)
 {	printf("Running: #%d for %d sec ...\n", index, t);
-	fprintf(fpWrite,"Running: #%d for %d sec ...\n", index, t);
 	sleep(t);
-	// use sleep to occupy the process
 }
 
-void runNonPreemptiveJob(struct queue *my_arr, int index, FILE *fpWrite)
+void runNonPreemptiveJob(struct queue *my_arr, int index)
 {
-	runProcess(index, my_arr->e[index].pid_time, fpWrite);
+	runProcess(index, my_arr->e[index].pid_time);
 }
 
-void runPreemptiveJob(struct queue *my_arr, int index, FILE *fpWrite)
+void runPreemptiveJob(struct queue *my_arr, int index)
 {
-	//long int iDifference = 0;
 	int t = my_arr->e[index].pid_time;
 
 	int iBurstTime = t > TIME_SLICE ? TIME_SLICE : t;
@@ -56,7 +54,7 @@ void runPreemptiveJob(struct queue *my_arr, int index, FILE *fpWrite)
 	printf("Q #%d >>> pid: %d remain time %d, will be running for %d sec\n", 
 		my_arr -> e[index].pid_priority, my_arr -> e[index].pid, t, iBurstTime);
 	
-	runProcess(my_arr->e[index].pid, iBurstTime, fpWrite);
+	runProcess(my_arr->e[index].pid, iBurstTime);
 	
 	my_arr -> e[index].pid_time = my_arr -> e[index].pid_time - iBurstTime;
 
