@@ -26,12 +26,12 @@ struct element generateProcess()
 
 	e.pid = counter;
 	counter = counter + 1;
-
+	
 	e.pid_time = generateProcessTime();
 	e.pid_priority = generatePriority();
+	
 	gettimeofday(&e.created_time, NULL);
 	sleep(1);
-
 	return e;	
 }
 

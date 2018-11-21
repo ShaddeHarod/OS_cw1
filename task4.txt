@@ -2,16 +2,16 @@ Initialising ...
 Init: successfully malloc element with size of 10 ...
 Max buffer: 10
 MAX_BUFFER_SIZE: 50
-C: job produced 1, job consumed 0
-C: job produced 2, job consumed 0
-C: job produced 3, job consumed 0
-C: job produced 4, job consumed 0
-C: job produced 5, job consumed 0
-C: job produced 6, job consumed 0
-C: job produced 7, job consumed 0
-C: job produced 8, job consumed 0
-C: job produced 9, job consumed 0
-C: job produced 10, job consumed 0
+P: job produced 1, job consumed 0
+P: job produced 2, job consumed 0
+P: job produced 3, job consumed 0
+P: job produced 4, job consumed 0
+P: job produced 5, job consumed 0
+P: job produced 6, job consumed 0
+P: job produced 7, job consumed 0
+P: job produced 8, job consumed 0
+P: job produced 9, job consumed 0
+P: job produced 10, job consumed 0
 Running: #9 for 1 sec ...
 C: job produced 10, job consumed 1
 Running: #8 for 1 sec ...
@@ -32,16 +32,16 @@ Running: #1 for 8 sec ...
 C: job produced 10, job consumed 9
 Running: #0 for 10 sec ...
 C: job produced 10, job consumed 10
-C: job produced 11, job consumed 10
-C: job produced 12, job consumed 10
-C: job produced 13, job consumed 10
-C: job produced 14, job consumed 10
-C: job produced 15, job consumed 10
-C: job produced 16, job consumed 10
-C: job produced 17, job consumed 10
-C: job produced 18, job consumed 10
-C: job produced 19, job consumed 10
-C: job produced 20, job consumed 10
+P: job produced 11, job consumed 10
+P: job produced 12, job consumed 10
+P: job produced 13, job consumed 10
+P: job produced 14, job consumed 10
+P: job produced 15, job consumed 10
+P: job produced 16, job consumed 10
+P: job produced 17, job consumed 10
+P: job produced 18, job consumed 10
+P: job produced 19, job consumed 10
+P: job produced 20, job consumed 10
 Running: #9 for 2 sec ...
 C: job produced 20, job consumed 11
 Running: #8 for 2 sec ...
@@ -62,16 +62,16 @@ Running: #1 for 10 sec ...
 C: job produced 20, job consumed 19
 Running: #0 for 10 sec ...
 C: job produced 20, job consumed 20
-C: job produced 21, job consumed 20
-C: job produced 22, job consumed 20
-C: job produced 23, job consumed 20
-C: job produced 24, job consumed 20
-C: job produced 25, job consumed 20
-C: job produced 26, job consumed 20
-C: job produced 27, job consumed 20
-C: job produced 28, job consumed 20
-C: job produced 29, job consumed 20
-C: job produced 30, job consumed 20
+P: job produced 21, job consumed 20
+P: job produced 22, job consumed 20
+P: job produced 23, job consumed 20
+P: job produced 24, job consumed 20
+P: job produced 25, job consumed 20
+P: job produced 26, job consumed 20
+P: job produced 27, job consumed 20
+P: job produced 28, job consumed 20
+P: job produced 29, job consumed 20
+P: job produced 30, job consumed 20
 Running: #9 for 2 sec ...
 C: job produced 30, job consumed 21
 Running: #8 for 2 sec ...
@@ -92,16 +92,16 @@ Running: #1 for 9 sec ...
 C: job produced 30, job consumed 29
 Running: #0 for 10 sec ...
 C: job produced 30, job consumed 30
-C: job produced 31, job consumed 30
-C: job produced 32, job consumed 30
-C: job produced 33, job consumed 30
-C: job produced 34, job consumed 30
-C: job produced 35, job consumed 30
-C: job produced 36, job consumed 30
-C: job produced 37, job consumed 30
-C: job produced 38, job consumed 30
-C: job produced 39, job consumed 30
-C: job produced 40, job consumed 30
+P: job produced 31, job consumed 30
+P: job produced 32, job consumed 30
+P: job produced 33, job consumed 30
+P: job produced 34, job consumed 30
+P: job produced 35, job consumed 30
+P: job produced 36, job consumed 30
+P: job produced 37, job consumed 30
+P: job produced 38, job consumed 30
+P: job produced 39, job consumed 30
+P: job produced 40, job consumed 30
 Running: #9 for 3 sec ...
 C: job produced 40, job consumed 31
 Running: #8 for 4 sec ...
@@ -122,35 +122,6 @@ Running: #1 for 7 sec ...
 C: job produced 40, job consumed 39
 Running: #0 for 7 sec ...
 C: job produced 40, job consumed 40
-C: job produced 41, job consumed 40
-C: job produced 42, job consumed 40
-C: job produced 43, job consumed 40
-C: job produced 44, job consumed 40
-C: job produced 45, job consumed 40
-C: job produced 46, job consumed 40
-C: job produced 47, job consumed 40
-C: job produced 48, job consumed 40
-C: job produced 49, job consumed 40
-C: job produced 50, job consumed 40
-Running: #9 for 3 sec ...
-C: job produced 50, job consumed 41
-Running: #8 for 4 sec ...
-C: job produced 50, job consumed 42
-Running: #7 for 5 sec ...
-C: job produced 50, job consumed 43
-Running: #6 for 5 sec ...
-C: job produced 50, job consumed 44
-Running: #5 for 7 sec ...
-C: job produced 50, job consumed 45
-Running: #4 for 7 sec ...
-C: job produced 50, job consumed 46
-Running: #3 for 7 sec ...
-C: job produced 50, job consumed 47
-Running: #2 for 8 sec ...
-C: job produced 50, job consumed 48
-Running: #1 for 9 sec ...
-C: job produced 50, job consumed 49
-Running: #0 for 10 sec ...
-C: job produced 50, job consumed 50
-Average response time: 23121.36 milliseconds.
-Average turn around time: 28501.44 milliseconds
+P: job produced 41, job consumed 40
+P: job produced 42, job consumed 40
+P: job produced 43, jo

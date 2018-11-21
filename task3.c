@@ -31,7 +31,7 @@ void runPQ(struct queue **my_Arr){
 	int i;
 	long int r, t;
 	//counter is for record which process should be executed, checkFinish is for checking if all processes in the queue finished, num is to count the number of processes in one queue
-	int counter, checkFinish, num;
+	int counter, num;
 	struct timeval *start;
 	struct timeval *end_S; 
 	struct timeval *end_E;
@@ -39,12 +39,11 @@ void runPQ(struct queue **my_Arr){
 	for(i = 0; i < PRIORITY;i++){
 		num = getCount(my_Arr[i]);
 		counter = 0;
-		checkFinish = 0;
 		start = (struct timeval *)malloc(sizeof(struct timeval) * num);
 		end_S = (struct timeval *)malloc(sizeof(struct timeval) * num);
 		end_E = (struct timeval *)malloc(sizeof(struct timeval) * num);
 		
-		while(checkFinish != num){
+		while(num != 0){
 			
 			//record start of each process, only once. start, c(start)
 			if(start[counter].tv_sec == 0){
@@ -68,8 +67,7 @@ void runPQ(struct queue **my_Arr){
 				t = getDifferenceInMilliSeconds(start[counter], end_E[counter]);
 				turnaroundTime[countTurnaround++] = (double)t;
 				printf("Q: %d P: %d C: %ld E: %ld T: %ld\n", i, my_Arr[i] -> e[counter].pid, start[counter].tv_sec, end_E[counter].tv_sec, t);
-				checkFinish++;
-				
+				num--;
 			}
 			counter = (counter + 1) % num;
 			

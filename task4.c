@@ -110,7 +110,7 @@ double average(double* sum){
 }
 void *producer(void * arr){
 	struct queue *my_Arr = (struct queue*)arr;
-	while(1){
+	while(countJobs < MAX_NUMBER_OF_JOBS){
 		if(my_Arr -> count < MAX_BUFFER_SIZE) {
 			sem_wait(&sync);
 			generateSJF((struct queue*)arr);
@@ -119,23 +119,19 @@ void *producer(void * arr){
 			printf("P: job produced %d, job consumed %d\n", countJobs, countJobsConsumed);
 			sem_post(&sync);
 		}	
-		if(countJobs == MAX_NUMBER_OF_JOBS) {break;}
-		
 	}
 	return NULL;
 }
 void *consumer(void * arr){
 	struct queue *my_Arr = (struct queue*)arr;
 	sem_wait(&delay_consumer);
-	while(1){
+	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
 		sem_wait(&sync);
 		runSJF(my_Arr);
 		tempConsumer = my_Arr -> count;
 		countJobsConsumed++;
 		printf("C: job produced %d, job consumed %d\n", countJobs, countJobsConsumed);
 		sem_post(&sync);
-		
-		if (countJobsConsumed == MAX_NUMBER_OF_JOBS) {break;}
 		if (tempConsumer == 0){ sem_wait(&delay_consumer);}
 	}
 	return NULL;
