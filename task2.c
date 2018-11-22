@@ -11,12 +11,11 @@ int countResponse, countTurnaround;
 
 
 int sortArrayByRunTime(struct queue *SJF, struct element *e){
-	int pid_t = e -> pid_time;
 	int pos = 0;
 	int i;
 
 	for(i = 0; i < SJF -> count; i++,pos++){
-		if(pid_t >= SJF -> e[i].pid_time){break;}	
+		if(e -> pid_time >= SJF -> e[i].pid_time){break;}	
 	}
 	//check if it is legal to insert
 	if(addHere(SJF, e, pos) == 1){exit(-1);}
@@ -42,25 +41,21 @@ double average(double* sum){
 
 void runSJF(struct queue *SJF){
 	//end_S and end_E are for response time and turn around time respectively
-	struct timeval start, end_S, end_E;
+	struct timeval end_S, end_E;
 	//c:created-time s: response timestamp e:turn around time stamp r:response time t:turn around time
-	long int c, s, e, r, t;
-	start = SJF -> e[getCount(SJF) - 1].created_time;
+	long int r, t;
 	//response time
 	gettimeofday(&end_S, NULL);
 	runNonPreemptiveJob(SJF, getCount(SJF) - 1);
 	gettimeofday(&end_E, NULL);
 	//calculate above time
-	c = start.tv_sec;
-	s = end_S.tv_sec;
-	e = end_S.tv_sec;
-	r = getDifferenceInMilliSeconds(start, end_S);
-	t = getDifferenceInMilliSeconds(start, end_E);
+	r = getDifferenceInMilliSeconds(SJF -> e[getCount(SJF) - 1].created_time, end_S);
+	t = getDifferenceInMilliSeconds(SJF -> e[getCount(SJF) - 1].created_time, end_E);
 	//calculate sum of response and turnaround
 	responseTime[countResponse++] =  (double)r;
 	turnaroundTime[countTurnaround++] = (double)t;
 	//printf message
-	printf("C: %ld S: %ld E: %ld R: %ld T: %ld\n",c, s, e, r, t);
+	printf("C: %ld S: %ld E: %ld R: %ld T: %ld\n",SJF -> e[getCount(SJF) - 1].created_time.tv_sec, end_S.tv_sec, end_E.tv_sec, r, t);
 	removeLast(SJF);
 }
 
