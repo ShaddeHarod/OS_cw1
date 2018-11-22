@@ -75,11 +75,11 @@ void removeLast(struct queue *my_arr){
 		printf("the queue is empty!\n");
 		exit(-1);
 	}
-	my_arr -> e[getCount(my_arr) - 1].pid = -1;
+	my_arr -> e[getCount(my_arr) - 1].pid = 0;
 	my_arr -> e[getCount(my_arr) - 1].pid_time = 0;
 	my_arr -> e[getCount(my_arr) - 1].created_time.tv_sec = 0;
 	my_arr -> e[getCount(my_arr) - 1].created_time.tv_usec = 0;
-	my_arr -> e[getCount(my_arr) - 1].pid_priority = -1;
+	my_arr -> e[getCount(my_arr) - 1].pid_priority = 0;
 	my_arr -> count--;
 }
 

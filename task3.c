@@ -1,15 +1,12 @@
-#ifndef MAX_PROCESSES
+
 #define MAX_PROCESSES 5
-#endif
-#include "osc_queue.c"
-#include "coursework.c"
+#include "coursework.h"
 #define true 1
 #define false 0
 
 
 double responseTime[MAX_PROCESSES];
 double turnaroundTime[MAX_PROCESSES];
-int countResponse, countTurnaround;
 
 void generatePQ(struct queue **PQ){
 
@@ -33,17 +30,15 @@ void runPQ(struct queue **my_Arr){
 		
 	for(i = 0; i < PRIORITY;i++){
 		int numOfEnd = getCount(my_Arr[i]);
-		int numOfResponse = getCount(my_Arr[i]);
 		int counter = 0;
 		
 		while(numOfEnd != 0){
-			if(numOfResponse != 0){
+			if(responseTime[my_Arr[i] -> e[counter].pid] == 0){
 				struct timeval end_S;
 				gettimeofday(&end_S,NULL);
 				r= getDifferenceInMilliSeconds(my_Arr[i] -> e[counter].created_time, end_S);
-				responseTime[countResponse++] =  (double)r;
+				responseTime[my_Arr[i] -> e[counter].pid] =  (double)r;
 				printf("Q: %d P: %d C: %ld S: %ld R: %ld\n", i, my_Arr[i] -> e[counter].pid, my_Arr[i] -> e[counter].created_time.tv_sec, end_S.tv_sec, r);
-				numOfResponse--;
 			}
 			//run the preemptive Job
 			if(my_Arr[i] -> e[counter].pid_time != 0){
@@ -52,7 +47,7 @@ void runPQ(struct queue **my_Arr){
 					struct timeval end_E;
 					gettimeofday(&end_E,NULL);
 					t = getDifferenceInMilliSeconds(my_Arr[i] -> e[counter].created_time, end_E);
-					turnaroundTime[countTurnaround++] = (double)t;
+					turnaroundTime[my_Arr[i] -> e[counter].pid] = (double)t;
 					printf("Q: %d P: %d C: %ld E: %ld T: %ld\n", i, my_Arr[i] -> e[counter].pid, my_Arr[i] -> e[counter].created_time.tv_sec, end_E.tv_sec, t);
 					numOfEnd--;
 				}
@@ -69,8 +64,6 @@ int main(){
 	
 	int i,j;
 	//these two are for calculating the response and turnaround average time
-	countResponse = 0;
- 	countTurnaround = 0;
 	//my_Arr in this file represents a struct queue pointer array.
 	struct queue **my_Arr = (struct queue**)malloc(sizeof(struct queue *) * PRIORITY);
 

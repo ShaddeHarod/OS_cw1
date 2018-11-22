@@ -1,8 +1,5 @@
-#ifndef MAX_PROCESSES
 #define MAX_PROCESSES 5
-#endif
-#include "osc_queue.c"
-#include "coursework.c"
+#include "coursework.h"
 
 
 double responseTime[MAX_PROCESSES];
@@ -13,10 +10,7 @@ int countResponse, countTurnaround;
 int sortArrayByRunTime(struct queue *SJF, struct element *e){
 	int pos = 0;
 	int i;
-
-	for(i = 0; i < SJF -> count; i++,pos++){
-		if(e -> pid_time >= SJF -> e[i].pid_time){break;}	
-	}
+	for(i = 0; i < SJF -> count; i++,pos++) {if(e -> pid_time >= SJF -> e[i].pid_time){break;}}
 	//check if it is legal to insert
 	if(addHere(SJF, e, pos) == 1){exit(-1);}
 	//if the element should be added in the first position, return 0
@@ -69,8 +63,7 @@ int main(){
 	countResponse = 0;
  	countTurnaround = 0;
 
-	struct queue *my_Arr = NULL;
-	my_Arr = (struct queue*)malloc(sizeof(struct queue));
+	struct queue *my_Arr = (struct queue*)malloc(sizeof(struct queue));
 	if(init(my_Arr, MAX_PROCESSES) == 1){exit(-1);}
 	printAll(my_Arr);
 	//Generating stage

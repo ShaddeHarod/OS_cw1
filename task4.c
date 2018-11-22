@@ -1,15 +1,14 @@
 #define MAX_NUMBER_OF_JOBS 50
 #define MAX_BUFFER_SIZE 10
 
-#include "osc_queue.c"
-#include "coursework.c"
+#include "coursework.h"
 #include <pthread.h>
 #include <semaphore.h>
 
 sem_t sync;
 sem_t delay_consumer;
+sem_t delay_producer;
 
-int tempConsumer;
 int countJobs;
 int countJobsConsumed;
 double responseTime[MAX_NUMBER_OF_JOBS];
@@ -33,13 +32,14 @@ int main(){
 	countJobsConsumed = 0;
 	sem_init(&sync,0,1);
 	sem_init(&delay_consumer, 0, 0);
+	sem_init(&delay_producer, 0, 0);
 	countResponse = 0;
  	countTurnaround = 0;
 	//these two are for calculating the response and turnaround average time
 
 
-	struct queue *my_Arr = NULL;
-	my_Arr = (struct queue*)malloc(sizeof(struct queue));
+	struct queue *my_Arr  = (struct queue*)malloc(sizeof(struct queue));;
+	
 	if(init(my_Arr, MAX_BUFFER_SIZE) == 1){exit(-1);}
 	else {printf("Max buffer: %d\nMAX_BUFFER_SIZE: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);}
 	
@@ -78,7 +78,6 @@ int sortArrayByRunTime(struct queue *SJF, struct element *e){
 
 void generateSJF(struct queue *SJF){
 	//if(SJF -> count == 0){printf("SJF: add first\n");}
-	
 	struct element p = generateProcess();
 	sortArrayByRunTime(SJF, &p);
 	//if(sortArrayByRunTime(SJF, &p) == 0){printf("SJF: add new largest\n");}
@@ -108,6 +107,7 @@ double average(double* sum){
 	for(i = 0; i < MAX_NUMBER_OF_JOBS; i++) { temp = temp + sum[i];}
 	return (temp / (double) MAX_NUMBER_OF_JOBS);
 }
+
 void *producer(void * arr){
 	struct queue *my_Arr = (struct queue*)arr;
 	while(countJobs < MAX_NUMBER_OF_JOBS){
@@ -118,7 +118,7 @@ void *producer(void * arr){
 			countJobs++;
 			printf("P: job produced %d, job consumed %d\n", countJobs, countJobsConsumed);
 			sem_post(&sync);
-		}	
+		}else {sem_wait(&delay_producer);}
 	}
 	return NULL;
 }
@@ -128,11 +128,12 @@ void *consumer(void * arr){
 	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
 		sem_wait(&sync);
 		runSJF(my_Arr);
-		tempConsumer = my_Arr -> count;
+		int tempConsumer = my_Arr -> count;
 		countJobsConsumed++;
 		printf("C: job produced %d, job consumed %d\n", countJobs, countJobsConsumed);
 		sem_post(&sync);
+		if (tempConsumer == MAX_BUFFER_SIZE - 1) { sem_post(&delay_producer);}
 		if (tempConsumer == 0){ sem_wait(&delay_consumer);}
 	}
 	return NULL;
-}
+} 

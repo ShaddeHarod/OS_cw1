@@ -1,8 +1,7 @@
 #define MAX_NUMBER_OF_JOBS 50
 #define MAX_BUFFER_SIZE 10
 
-#include "osc_queue.c"
-#include "coursework.c"
+#include "coursework.h"
 #include <pthread.h>
 #include <semaphore.h>
 
@@ -14,8 +13,6 @@ int countJobs,countJobsConsumed;
 
 double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
-int countResponse, countTurnaround;
-//int flag[PRIORITY] = {0, 0};
 
 struct queue **_Arr;
 
@@ -46,11 +43,6 @@ int main(){
 	sem_t *c[PRIORITY] = {&semConsumer1, &semConsumer2, &semConsumer3};
 	consumersSemArr = c;
 
-	countJobs = 0;
-	countJobsConsumed = 0;
-
-	countResponse = 0;
- 	countTurnaround = 0;
 	
 	_Arr = (struct queue**)malloc(sizeof(struct queue *) * PRIORITY);
 	for(i = 0; i < PRIORITY;i++){ 
@@ -101,36 +93,32 @@ void runPQ(struct queue *my_Arr){
 	//c:created-time s: response timestamp e:turn around time stamp r:response time t:turn around time	
 	long int r, t;
 	//counter is for record which process should be executed, checkFinish is for checking if all processes in the queue finished, num is to count the number of processes in one queue
-	int counter, num;
-
-	num = getCount(my_Arr);
-	counter = 0;
+	int counter = 0;
 	struct timeval end_S,end_E;
-	end_S.tv_sec = 0;
-	end_E.tv_sec = 0;
-	while(num != 0){
-		if(end_S.tv_sec == 0){
-			//record response time of each process, only once. start, s(end_S), r(start, end_S)
+
+	while(getCount(my_Arr) != 0){
+		if(responseTime[my_Arr -> e[counter].pid] == 0){
 			gettimeofday(&end_S,NULL);
 			r= getDifferenceInMilliSeconds(my_Arr -> e[counter].created_time, end_S);
-			responseTime[countResponse++] =  (double)r;
+			responseTime[my_Arr -> e[counter].pid] =  (double)r;
 		}
 		//run the preemptive Job
-		if(my_Arr -> e[counter].pid_time != 0) { runPreemptiveJob(my_Arr, counter); }
-		if(my_Arr -> e[counter].pid_time == 0 && end_E.tv_sec == 0){
-			//mark e(end_E), t(start, end_E)
-			gettimeofday(&end_E,NULL);
-			//print queue, pid, its c(start), e(end_E), t(start, end_E) 
-			t = getDifferenceInMilliSeconds(my_Arr -> e[counter].created_time, end_E);
-			turnaroundTime[countTurnaround++] = (double)t;
-			countJobsConsumed++;
-			printf("C: job on buffer %d, job produced %d, job consumed %d\n",my_Arr -> e[counter].pid_priority,countJobs, countJobsConsumed);
-			num--;
-			swap(my_Arr, counter);
-			removeLast(my_Arr);
-			break;
+		if(my_Arr -> e[counter].pid_time != 0) { 
+			runPreemptiveJob(my_Arr, counter); 
+			if(my_Arr -> e[counter].pid_time == 0){
+				//mark e(end_E), t(start, end_E)
+				gettimeofday(&end_E,NULL);
+				//print queue, pid, its c(start), e(end_E), t(start, end_E) 
+				t = getDifferenceInMilliSeconds(my_Arr -> e[counter].created_time, end_E);
+				turnaroundTime[my_Arr -> e[counter].pid] = (double)t;
+				countJobsConsumed++;
+				printf("C: job on buffer %d, job produced %d, job consumed %d\n",my_Arr -> e[counter].pid_priority,countJobs, countJobsConsumed);
+				swap(my_Arr, counter);
+				removeLast(my_Arr);
+				break;
+			}
 		}
-		counter = (counter + 1) % num;
+		counter = (counter + 1) % getCount(my_Arr);
 		//if the process is finished, get end_E and then t, update response_Sum and turnaround_Sum
 	}
 }
@@ -151,7 +139,7 @@ void * consumer(void * index){
 	sem_wait(consumersSemArr[i]);
 
 	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
-		while((i==1 && (_Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0 ))||(i == 2  && (_Arr[i - 2] -> count != 0 || _Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0))) { sem_wait(consumersSemArr[i]);}
+		while((i==0 && (_Arr[i] == 0))||(i==1 && (_Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0 ))||(i == 2  && (_Arr[i - 2] -> count != 0 || _Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0))) {sem_wait(consumersSemArr[i]);}
 		sem_wait(&full);
 		sem_wait(&sync);
 		runPQ(_Arr[i]);
@@ -177,7 +165,7 @@ void * consumer(void * index){
 				sem_wait(consumersSemArr[i]);
 			}
 			else { for(j = 0; j < PRIORITY; j++) { sem_post(consumersSemArr[j]);}}
-		}	
+    	} 
 	}
 	return NULL;
 }
