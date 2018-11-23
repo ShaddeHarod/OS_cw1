@@ -20,6 +20,7 @@ void generatePQ(struct queue **PQ);
 double average(double* sum);
 void runPQ(struct queue *my_Arr);
 void swap(struct queue *my_Arr, int pos);
+
 void * producer(void * i);
 void * consumer(void * index);
 
@@ -29,7 +30,8 @@ int main(){
 	int i = 0;
 	int arg[PRIORITY] = {0, 1, 2};
 	pthread_t tProducer;
-	pthread_t tConsumer[PRIORITY];
+	//pthread_t consumer1, consumer2, consumer3;
+	pthread_t tConsumer[PRIORITY]; //= {consumer1, consumer2, consumer3};
 
 	sem_init(&sync, 0, 1);
 	sem_init(&empty, 0, MAX_BUFFER_SIZE);
@@ -110,10 +112,9 @@ void runPQ(struct queue *my_Arr){
 				t = getDifferenceInMilliSeconds(my_Arr -> e[counter].created_time, end_E);
 				turnaroundTime[my_Arr -> e[counter].pid] = (double)t;
 				countJobsConsumed++;
-				int bufferIndex = my_Arr -> e[counter].pid_priority;
+				printf("C: on buffer %d, it has %d elements, job produced %d, job consumed %d\n",my_Arr -> e[counter].pid_priority,getCount(my_Arr),countJobs, countJobsConsumed);
 				swap(my_Arr, counter);
 				removeLast(my_Arr);
-				printf("C: on buffer %d, it has %d elements, job produced %d, job consumed %d\n",bufferIndex,getCount(my_Arr),countJobs, countJobsConsumed);
 				break;
 			}
 		}
@@ -137,9 +138,8 @@ void * consumer(void * index){
 	int j;
 	sem_wait(consumersSemArr[i]);
 
-	while(1){
-		while((countJobsConsumed < MAX_NUMBER_OF_JOBS)&&((i==1 && (_Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0 ))||(i == 2  && (_Arr[i - 2] -> count != 0 || _Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0)))) {sem_wait(consumersSemArr[i]);}
-		if (countJobsConsumed >= MAX_NUMBER_OF_JOBS) {break;}
+	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
+		while((i==1 && (_Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0 ))||(i == 2  && (_Arr[i - 2] -> count != 0 || _Arr[i - 1] -> count != 0 || _Arr[i] -> count == 0))) {sem_wait(consumersSemArr[i]);}
 		sem_wait(&full);
 		sem_wait(&sync);
 		runPQ(_Arr[i]);
