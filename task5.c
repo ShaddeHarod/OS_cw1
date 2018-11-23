@@ -71,7 +71,7 @@ void generatePQ(struct queue **PQ){
 	struct element p = generateProcess();
 	countJobs++;
 	if(addFirst(PQ[p.pid_priority], &p) != 1){
-		printf("P: job on buffer %d, job produced %d, job consumed %d\n", p.pid_priority,countJobs, countJobsConsumed);
+		printf("P: on buffer %d, it has %d elements, job produced %d, job consumed %d\n", p.pid_priority, getCount(PQ[p.pid_priority]),countJobs, countJobsConsumed);
 		if(PQ[p.pid_priority]->count == 1) {sem_post(consumersSemArr[p.pid_priority]);}
 	}
 }
@@ -112,7 +112,7 @@ void runPQ(struct queue *my_Arr){
 				t = getDifferenceInMilliSeconds(my_Arr -> e[counter].created_time, end_E);
 				turnaroundTime[my_Arr -> e[counter].pid] = (double)t;
 				countJobsConsumed++;
-				printf("C: job on buffer %d, job produced %d, job consumed %d\n",my_Arr -> e[counter].pid_priority,countJobs, countJobsConsumed);
+				printf("C: on buffer %d, it has %d elements, job produced %d, job consumed %d\n",my_Arr -> e[counter].pid_priority,getCount(my_Arr),countJobs, countJobsConsumed);
 				swap(my_Arr, counter);
 				removeLast(my_Arr);
 				break;
