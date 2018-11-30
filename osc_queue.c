@@ -39,7 +39,6 @@ int addHere(struct queue *my_arr, struct element *new_e, int index){
 	my_arr -> count++;	
 	return 0;
 	
-	
 }
 
 int addFirst(struct queue *my_arr, struct element *new_e){

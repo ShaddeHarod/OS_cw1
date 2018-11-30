@@ -1,5 +1,6 @@
 #define MAX_NUMBER_OF_JOBS 50
 #define MAX_BUFFER_SIZE 10
+#define MAX_RUN_BUFFER_SIZE 1
 
 #include "coursework.h"
 #include <pthread.h>
@@ -12,12 +13,6 @@ int countJobs;
 int countJobsConsumed;
 double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
-int countResponse, countTurnaround;
-
-int sortArrayByRunTime(struct queue *SJF, struct element *e);
-void generateSJF(struct queue *SJF);
-void runSJF(struct queue *SJF);
-double average(double* sum);
 
 void *producer(void * arr);
 void *consumer(void * arr);
@@ -26,17 +21,17 @@ void *consumer(void * arr);
 
 
 int main(){
+	int i;
+	double temp,averageResponseTime, averageTurnAroundTime;
 	pthread_t tProducer, tConsumer;
 	countJobs = 0;
 	countJobsConsumed = 0;
 	sem_init(&sync,0,1);
 	sem_init(&delay_consumer, 0, 0);
-	countResponse = 0;
- 	countTurnaround = 0;
 	//these two are for calculating the response and turnaround average time
 
 
-	struct queue *my_Arr  = (struct queue*)malloc(sizeof(struct queue));;
+	struct queue *my_Arr  = (struct queue*)malloc(sizeof(struct queue));
 	
 	if(init(my_Arr, MAX_BUFFER_SIZE) == 1){exit(-1);}
 	else {printf("Max buffer: %d\nMAX_BUFFER_SIZE: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);}
@@ -46,8 +41,13 @@ int main(){
 
 	pthread_join(tProducer, NULL);
 	pthread_join(tConsumer, NULL);
-	
-	printf("Average response time: %.2lf milliseconds.\nAverage turn around time: %.2lf milliseconds\n", average(responseTime), average(turnaroundTime));
+
+	for(i = 0, temp = 0; i < MAX_NUMBER_OF_JOBS; i++) { temp = temp + responseTime[i];}
+	averageResponseTime = temp / (double) MAX_NUMBER_OF_JOBS;
+
+	for(i = 0, temp = 0; i < MAX_NUMBER_OF_JOBS; i++) { temp = temp + turnaroundTime[i];}
+	averageTurnAroundTime = temp / (double) MAX_NUMBER_OF_JOBS;
+	printf("Average response time: %.2lf milliseconds.\nAverage turn around time: %.2lf milliseconds\n", averageResponseTime, averageTurnAroundTime);
 	//free memory allocation
 	freeAll(my_Arr);
 
@@ -59,77 +59,58 @@ int main(){
 
 
 
-int sortArrayByRunTime(struct queue *SJF, struct element *e){
-	int pid_t = e -> pid_time;
-	int pos = 0;
-	int i;
-
-	for(i = 0; i < SJF -> count; i++,pos++){
-		if(pid_t >= SJF -> e[i].pid_time){break;}	
-	}
-	//check if it is legal to insert
-	if(addHere(SJF, e, pos) == 1){exit(-1);}
-	//if the element should be added in the first position, return 0
-	if(pos == 0){return 0;}
-	return 1;
-}
-
-void generateSJF(struct queue *SJF){
-	struct element p = generateProcess();
-	sortArrayByRunTime(SJF, &p);
-}
-
-void runSJF(struct queue *SJF){
-	//end_S and end_E are for response time and turn around time respectively
-	struct timeval start, end_S, end_E;
-	long int r,t;
-	start = SJF -> e[getCount(SJF) - 1].created_time;
-	//response time
-	gettimeofday(&end_S, NULL);
-	runNonPreemptiveJob(SJF, getCount(SJF) - 1);
-	//turn around time
-	gettimeofday(&end_E, NULL);
-
-	r = getDifferenceInMilliSeconds(start, end_S);
-	t = getDifferenceInMilliSeconds(start, end_E);
-	//calculate sum of response and turnaround
-	responseTime[countResponse++] =  (double)r;
-	turnaroundTime[countTurnaround++] = (double)t;
-	removeLast(SJF);
-}
-double average(double* sum){
-	int i;
-	double temp = 0;
-	for(i = 0; i < MAX_NUMBER_OF_JOBS; i++) { temp = temp + sum[i];}
-	return (temp / (double) MAX_NUMBER_OF_JOBS);
-}
 
 void *producer(void * arr){
+	int pos, i;
 	struct queue *my_Arr = (struct queue*)arr;
 	while(countJobs < MAX_NUMBER_OF_JOBS){
 		if(my_Arr -> count < MAX_BUFFER_SIZE) {
+			struct element p = generateProcess();
 			sem_wait(&sync);
-			generateSJF((struct queue*)arr);
+			for(i = 0, pos = 0; i < my_Arr -> count; i++,pos++) {if(p.pid_time >= my_Arr -> e[i].pid_time){break;}}
+			//check if it is legal to insert
+			if(addHere(my_Arr, &p, pos) == 1){exit(-1);}
 			int tempProducer = my_Arr -> count;
-			if(tempProducer == 1) {sem_post(&delay_consumer);}
 			countJobs++;
 			printf("P: buffer has %d elements, job produced %d, job consumed %d\n", tempProducer, countJobs, countJobsConsumed);
 			sem_post(&sync);
+			if(tempProducer == 1) {sem_post(&delay_consumer);}
 		}
 	}
 	return NULL;
 }
 void *consumer(void * arr){
 	struct queue *my_Arr = (struct queue*)arr;
+	struct queue *runQueue = (struct queue*)malloc(sizeof(struct queue));
+	struct timeval start, end_S, end_E;
+	long int r,t;
+	if(init(runQueue, MAX_RUN_BUFFER_SIZE) == 1){exit(-1);}
+
 	sem_wait(&delay_consumer);
 	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
+		
 		sem_wait(&sync);
-		runSJF(my_Arr);
-		int tempConsumer = my_Arr -> count;
+		addFirst(runQueue, &(my_Arr -> e[getCount(my_Arr) - 1]));
+		removeLast(my_Arr);
 		countJobsConsumed++;
+		int tempConsumer = getCount(my_Arr);
 		printf("C: buffer has %d elements,job produced %d, job consumed %d\n", tempConsumer,countJobs, countJobsConsumed);
 		sem_post(&sync);
+		
+		start = runQueue -> e[getCount(runQueue) - 1].created_time;
+		//response time
+		gettimeofday(&end_S, NULL);
+		runNonPreemptiveJob(runQueue, getCount(runQueue) - 1);
+		//turn around time
+		gettimeofday(&end_E, NULL);
+		r = getDifferenceInMilliSeconds(start, end_S);
+		t = getDifferenceInMilliSeconds(start, end_E);
+		//calculate sum of response and turnaround
+		responseTime[runQueue -> e[getCount(runQueue) - 1].pid] =  (double)r;
+		turnaroundTime[runQueue -> e[getCount(runQueue) - 1].pid] = (double)t;
+		removeLast(runQueue);
 		if (tempConsumer == 0 && countJobsConsumed < MAX_NUMBER_OF_JOBS){ sem_wait(&delay_consumer);}
 	}
+	freeAll(runQueue);
 	return NULL;
 } 

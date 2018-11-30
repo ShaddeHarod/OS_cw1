@@ -15,12 +15,6 @@ void generatePQ(struct queue **PQ){
 	if(addFirst(PQ[p.pid_priority], &p) != 1){printf("PQ %d: add new\n", p.pid_priority);}
 }
 
-double average(double* sum){
-	int i;
-	double temp = 0;
-	for(i = 0; i < MAX_PROCESSES; i++) { temp = temp + sum[i];}
-	return (temp / (double) MAX_PROCESSES);
-}
 
 void runPQ(struct queue **my_Arr){
 	//end_S and end_E are for response time and turn around time respectively
@@ -63,6 +57,7 @@ void runPQ(struct queue **my_Arr){
 int main(){
 	
 	int i,j;
+	double temp,averageResponseTime,averageTurnAroundTime;
 	//these two are for calculating the response and turnaround average time
 	//my_Arr in this file represents a struct queue pointer array.
 	struct queue **my_Arr = (struct queue**)malloc(sizeof(struct queue *) * PRIORITY);
@@ -88,7 +83,12 @@ int main(){
 	runPQ(my_Arr);
 
 	//printf average result
-	printf("Average response time: %.2lf milliseconds.\nAverage turn around time: %.2lf milliseconds\n", average(responseTime), average(turnaroundTime));
+	for(i = 0, temp = 0; i < MAX_PROCESSES; i++) { temp = temp + responseTime[i];}
+	averageResponseTime = temp / (double) MAX_PROCESSES;
+
+	for(i = 0, temp = 0; i < MAX_PROCESSES; i++) { temp = temp + turnaroundTime[i];}
+	averageTurnAroundTime = temp / (double) MAX_PROCESSES;
+	printf("Average response time: %.2lf milliseconds.\nAverage turn around time: %.2lf milliseconds\n", averageResponseTime, averageTurnAroundTime);
 	for(i = 0; i < PRIORITY;i++){freeAll(my_Arr[i]);}
 	free(my_Arr); my_Arr = NULL;
 }
