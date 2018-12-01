@@ -45,10 +45,10 @@ int main(){
 	}
 	
 	pthread_create(&tProducer, NULL, producer, (void *)&i);
-	for(i = 0; i < PRIORITY; i++) { pthread_create(&tConsumer[i], NULL, consumer, (void *)&producerID[i]);}
+	for(i = 0; i < NUMBER_OF_CONSUMER; i++) { pthread_create(&tConsumer[i], NULL, consumer, (void *)&producerID[i]);}
 
 	pthread_join(tProducer, NULL);
-	for(i = 0; i < PRIORITY; i++) { pthread_join(tConsumer[i], NULL); }
+	for(i = 0; i < NUMBER_OF_CONSUMER; i++) { pthread_join(tConsumer[i], NULL); }
 
 
 	for(i = 0, temp = 0; i < MAX_NUMBER_OF_JOBS; i++) { temp = temp + responseTime[i];}
