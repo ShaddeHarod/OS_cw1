@@ -1,6 +1,6 @@
 #define MAX_NUMBER_OF_JOBS 50
 #define MAX_BUFFER_SIZE 10
-#define NUMBER_OF_CONSUMER 5
+#define NUMBER_OF_CONSUMER 4
 
 #include "coursework.h"
 #include <pthread.h>
@@ -72,7 +72,7 @@ void * producer(void * i){
 			sem_wait(&sync);
 			countJobs++;
 			if(addFirst(_Arr[p.pid_priority], &p) != 1){
-				printf("Producer  : buffer %d has %d elements, job produced %d, job consumed %d, , there are %d elements remained in the whole\n", p.pid_priority, getCount(_Arr[p.pid_priority]),countJobs, countJobsConsumed,(countJobs - countJobsConsumed));
+				printf("Producer   is operating on buffer %d, job produced %d, job consumed %d, , there are %d elements remained in the whole\n", p.pid_priority,countJobs, countJobsConsumed,(countJobs - countJobsConsumed));
 			}
 			sem_post(&sync);
 			sem_post(&full);
@@ -83,8 +83,7 @@ void * consumer(void * index) {
 	int i = *(int *)index;
 	int j;
 	long int r, t;
-	struct element e_response;
-	int iBurstTime;
+	struct element e;
 	struct timeval end_S,end_E;
 	struct queue *my_Arr;
 	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
@@ -100,40 +99,33 @@ void * consumer(void * index) {
 				break;			
 			}
 		}
-		e_response = my_Arr -> e[0];
-		gettimeofday(&end_S,NULL);
+		e = my_Arr -> e[getCount(my_Arr) - 1];
 		
-		if(my_Arr -> e[0].pid_time != 0) { 
-			iBurstTime = runPreemptiveJob(my_Arr, 0); 
-			struct element temp = my_Arr ->e[0];;
-			my_Arr -> e[0] = my_Arr -> e[getCount(my_Arr) - 1];
-			my_Arr -> e[getCount(my_Arr) - 1] = temp;
-			if(my_Arr -> e[getCount(my_Arr) - 1].pid_time == 0){
-				runProcess(my_Arr->e[getCount(my_Arr) - 1].pid, iBurstTime);
-
-				gettimeofday(&end_E,NULL);
-
-				struct element e_turnaround = my_Arr -> e[getCount(my_Arr) - 1];
-
-				countJobsConsumed++;
-				int bufferIndex = my_Arr -> e[getCount(my_Arr) - 1].pid_priority;
-				removeLast(my_Arr);
-				printf("ConsumerID:%d, buffer %d has %d elements, job produced %d, job consumed %d, there are %d elements remained in the whole\n",i,bufferIndex,getCount(my_Arr),countJobs, countJobsConsumed, (countJobs - countJobsConsumed));
-				if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
-				sem_post(&sync);
-				sem_post(&empty);
-
-				t= getDifferenceInMilliSeconds(e_turnaround.created_time, end_E);
-				turnaroundTime[e_turnaround.pid] = (double)t;
-			}else {
-				sem_post(&sync);
-				sem_post(&full);
-				runProcess(my_Arr->e[getCount(my_Arr) - 1].pid, iBurstTime);
-			}
+		removeLast(my_Arr);
+		sem_post(&sync);
+		
+		gettimeofday(&end_S,NULL);
+		runPreemptiveJobv2(&e); 
+		if(e.pid_time == 0){
+			gettimeofday(&end_E,NULL);
+			sem_wait(&sync);
+			countJobsConsumed++;
+			printf("ConsumerID:%d is operating on buffer %d , job produced %d, job consumed %d, there are %d elements remained in the whole\n",i,e.pid_priority,countJobs, countJobsConsumed, (countJobs - countJobsConsumed));
+			if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
+			sem_post(&sync);
+			sem_post(&empty);
+			t= getDifferenceInMilliSeconds(e.created_time, end_E);
+			turnaroundTime[e.pid] = (double)t;
+		}else {
+			sem_wait(&sync);
+			addLast(my_Arr, &e);
+			sem_post(&sync);
+			sem_post(&full);
 		}
-		if(responseTime[e_response.pid] == 0){
-			r= getDifferenceInMilliSeconds(e_response.created_time, end_S);
-			responseTime[e_response.pid] =  (double)r;
+		
+		if(responseTime[e.pid] == 0){
+			r= getDifferenceInMilliSeconds(e.created_time, end_S);
+			responseTime[e.pid] =  (double)r;
 		}
 		
 	}

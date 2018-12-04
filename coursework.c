@@ -44,21 +44,49 @@ void runProcess(int index, int t)
 
 void runNonPreemptiveJob(struct queue *my_arr, int index)
 {
-	runProcess(index, my_arr->e[index].pid_time);
+    runProcess(index, my_arr->e[index].pid_time);
 }
 
-int runPreemptiveJob(struct queue *my_arr, int index)
+void runPreemptiveJob(struct queue *my_arr, int index)
 {
-	int t = my_arr->e[index].pid_time;
+    //long int iDifference = 0;
+    int t = my_arr->e[index].pid_time;
+    
+    int iBurstTime = t > TIME_SLICE ? TIME_SLICE : t;
+    
+    printf("Q #%d >>> pid: %d remain time %d, will be running for %d sec\n",
+           my_arr->e[index].pid_priority, my_arr->e[index].pid, t, iBurstTime);
+    
+    runProcess(my_arr->e[index].pid, iBurstTime);
+    
+    my_arr->e[index].pid_time = my_arr->e[index].pid_time - iBurstTime;
+}
 
-	int iBurstTime = t > TIME_SLICE ? TIME_SLICE : t;
+// the following functions can be chosen for task 3, 4 and 5
 
-	//printf("Q #%d >>> pid: %d remain time %d, will be running for %d sec\n", 
-	//	my_arr->e[index].pid_priority, my_arr->e[index].pid, t, iBurstTime);
-	
-	//runProcess(my_arr->e[index].pid, iBurstTime);
-	
-	my_arr->e[index].pid_time = my_arr->e[index].pid_time - iBurstTime;
-	return iBurstTime;
+void runProcessv2(int pid, int t)
+{
+    printf("Running: #%d for %d sec ...\n", pid, t);
+    sleep(t);
+    // use sleep to occupy the process
+}
+
+void runNonPreemptiveJobv2(struct element * tempProcess)
+{
+    int processpid = tempProcess->pid; //both tempProcess->pid and (*tempProcess).pid are applicable
+    int iBurstTime = tempProcess->pid_time;
+    runProcessv2(processpid, iBurstTime);
+}
+
+void runPreemptiveJobv2(struct element * tempProcess)
+{
+    int remain_t = tempProcess->pid_time;
+    int processpid = tempProcess->pid;
+    int iBurstTime = remain_t > TIME_SLICE ? TIME_SLICE : remain_t;
+	printf("Q #%d >>> pid: %d remain time %d, will be running for %d sec\n", 
+		tempProcess->pid_priority, processpid, remain_t, iBurstTime);
+
+	runProcessv2(processpid, iBurstTime);
+    tempProcess->pid_time = remain_t - iBurstTime;
 }
 

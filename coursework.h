@@ -19,6 +19,16 @@ void runProcess(int index, int t);
 
 void runNonPreemptiveJob(struct queue *my_arr, int index);
 // run the shortest job first algorithm
-int runPreemptiveJob(struct queue *my_arr, int index);
+void runPreemptiveJob(struct queue *my_arr, int index);
+// run the round robin for priority queue
+
+//updated for task 3,4,5
+void runProcessv2(int pid, int t);
+// simulate the running of jobs
+
+void runNonPreemptiveJobv2(struct element * tempProcess);
+// run the shortest job first algorithm
+
+void runPreemptiveJobv2(struct element * tempProcess);
 // run the round robin for priority queue
 

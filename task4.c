@@ -81,36 +81,30 @@ void *producer(void * arr){
 }
 void *consumer(void * arr){
 	struct queue *my_Arr = (struct queue*)arr;
-	struct queue *runQueue = (struct queue*)malloc(sizeof(struct queue));
-	struct timeval start, end_S, end_E;
+	struct timeval end_S, end_E;
 	long int r,t;
-	if(init(runQueue, MAX_RUN_BUFFER_SIZE) == 1){exit(-1);}
-
+	struct element e;
 	sem_wait(&delay_consumer);
 	while(countJobsConsumed < MAX_NUMBER_OF_JOBS){
 		
 		sem_wait(&sync);
-		addFirst(runQueue, &(my_Arr -> e[getCount(my_Arr) - 1]));
+		e = my_Arr ->e[getCount(my_Arr) - 1];
 		removeLast(my_Arr);
 		countJobsConsumed++;
 		int tempConsumer = getCount(my_Arr);
 		printf("C: buffer has %d elements,job produced %d, job consumed %d\n", tempConsumer,countJobs, countJobsConsumed);
 		sem_post(&sync);
-		
-		start = runQueue -> e[getCount(runQueue) - 1].created_time;
 		//response time
 		gettimeofday(&end_S, NULL);
-		runNonPreemptiveJob(runQueue, getCount(runQueue) - 1);
+		runNonPreemptiveJobv2(&e);
 		//turn around time
 		gettimeofday(&end_E, NULL);
-		r = getDifferenceInMilliSeconds(start, end_S);
-		t = getDifferenceInMilliSeconds(start, end_E);
+		r = getDifferenceInMilliSeconds(e.created_time, end_S);
+		t = getDifferenceInMilliSeconds(e.created_time, end_E);
 		//calculate sum of response and turnaround
-		responseTime[runQueue -> e[getCount(runQueue) - 1].pid] =  (double)r;
-		turnaroundTime[runQueue -> e[getCount(runQueue) - 1].pid] = (double)t;
-		removeLast(runQueue);
+		responseTime[e.pid] =  (double)r;
+		turnaroundTime[e.pid] = (double)t;
 		if (tempConsumer == 0 && countJobsConsumed < MAX_NUMBER_OF_JOBS){ sem_wait(&delay_consumer);}
 	}
-	freeAll(runQueue);
 	return NULL;
 } 
