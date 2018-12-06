@@ -72,7 +72,7 @@ void * producer(void * i){
 			sem_wait(&sync);
 			countJobs++;
 			if(addFirst(_Arr[p.pid_priority], &p) != 1){
-				printf("Producer   is operating on buffer %d, job produced %d, job consumed %d, , there are %d elements remained in the whole\n", p.pid_priority,countJobs, countJobsConsumed,(countJobs - countJobsConsumed));
+				printf("\nProducer is operating on buffer %d, processID:%d\nJob produced %d in total, job consumed %d in total\n", p.pid_priority,p.pid,countJobs, countJobsConsumed);
 			}
 			sem_post(&sync);
 			sem_post(&full);
@@ -83,6 +83,7 @@ void * consumer(void * index) {
 	int i = *(int *)index;
 	int j;
 	long int r, t;
+	int processIndex;
 	struct element e;
 	struct timeval end_S,end_E;
 	struct queue *my_Arr;
@@ -99,9 +100,10 @@ void * consumer(void * index) {
 				break;			
 			}
 		}
-		e = my_Arr -> e[getCount(my_Arr) - 1];
-		
+		processIndex = getCount(my_Arr) - 1;
+		e = my_Arr -> e[processIndex];
 		removeLast(my_Arr);
+		printf("\nConsumerID:%d on buffer %d. Process #%d taken to run.\n",i, e.pid_priority, e.pid);
 		sem_post(&sync);
 		
 		gettimeofday(&end_S,NULL);
@@ -110,7 +112,8 @@ void * consumer(void * index) {
 			gettimeofday(&end_E,NULL);
 			sem_wait(&sync);
 			countJobsConsumed++;
-			printf("ConsumerID:%d is operating on buffer %d , job produced %d, job consumed %d, there are %d elements remained in the whole\n",i,e.pid_priority,countJobs, countJobsConsumed, (countJobs - countJobsConsumed));
+			printf("\nConsumerID:%d on buffer %d. Process previous index: %d, Process#%d has finished.\nJob produced %d in total, job consumed %d in total\n",i,e.pid_priority,processIndex,e.pid,countJobs, countJobsConsumed);
+			printf("\nProcesses Distribution:\nqueue1:%d processes, queue2:%d processes, queue2: %d processes\n",getCount(_Arr[0]),getCount(_Arr[1]), getCount(_Arr[2])); 
 			if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
 			sem_post(&sync);
 			sem_post(&empty);
@@ -119,6 +122,8 @@ void * consumer(void * index) {
 		}else {
 			sem_wait(&sync);
 			addLast(my_Arr, &e);
+			printf("\nConsumerID:%d on buffer %d. Process#%d has been put back.\n", i, e.pid_priority, e.pid); 
+			printf("\nProcesses Distribution:\nqueue1:%d processes, queue2:%d processes, queue2: %d processes\n",getCount(_Arr[0]),getCount(_Arr[1]), getCount(_Arr[2]));
 			sem_post(&sync);
 			sem_post(&full);
 		}

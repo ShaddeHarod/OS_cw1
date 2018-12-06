@@ -2,155 +2,255 @@ Initialising ...
 Init: successfully malloc element with size of 10 ...
 Max buffer: 10
 MAX_BUFFER_SIZE: 50
-P: buffer has 1 elements, job produced 1, job consumed 0
-C: buffer has 0 elements,job produced 1, job consumed 1
+P: ProcessID#0, Insertion index0, buffer has 1 elements left.
+Job produced 1 in total, job consumed 0 in total
+C: processID#0 is consumed, index0, buffer has 0 elements left.
+Job produced 1 in total, job consumed 1 in total
 Running: #0 for 4 sec ...
-P: buffer has 1 elements, job produced 2, job consumed 1
-P: buffer has 2 elements, job produced 3, job consumed 1
-P: buffer has 3 elements, job produced 4, job consumed 1
-C: buffer has 2 elements,job produced 4, job consumed 2
+P: ProcessID#1, Insertion index0, buffer has 1 elements left.
+Job produced 2 in total, job consumed 1 in total
+P: ProcessID#2, Insertion index1, buffer has 2 elements left.
+Job produced 3 in total, job consumed 1 in total
+P: ProcessID#3, Insertion index1, buffer has 3 elements left.
+Job produced 4 in total, job consumed 1 in total
+C: processID#2 is consumed, index2, buffer has 2 elements left.
+Job produced 4 in total, job consumed 2 in total
 Running: #2 for 4 sec ...
-P: buffer has 3 elements, job produced 5, job consumed 2
-P: buffer has 4 elements, job produced 6, job consumed 2
-P: buffer has 5 elements, job produced 7, job consumed 2
-P: buffer has 6 elements, job produced 8, job consumed 2
-C: buffer has 5 elements,job produced 8, job consumed 3
+P: ProcessID#4, Insertion index0, buffer has 3 elements left.
+Job produced 5 in total, job consumed 2 in total
+P: ProcessID#5, Insertion index3, buffer has 4 elements left.
+Job produced 6 in total, job consumed 2 in total
+P: ProcessID#6, Insertion index4, buffer has 5 elements left.
+Job produced 7 in total, job consumed 2 in total
+P: ProcessID#7, Insertion index3, buffer has 6 elements left.
+Job produced 8 in total, job consumed 2 in total
+C: processID#6 is consumed, index5, buffer has 5 elements left.
+Job produced 8 in total, job consumed 3 in total
 Running: #6 for 1 sec ...
-P: buffer has 6 elements, job produced 9, job consumed 3
-C: buffer has 5 elements,job produced 9, job consumed 4
+P: ProcessID#8, Insertion index5, buffer has 6 elements left.
+Job produced 9 in total, job consumed 3 in total
+C: processID#8 is consumed, index5, buffer has 5 elements left.
+Job produced 9 in total, job consumed 4 in total
 Running: #8 for 1 sec ...
-P: buffer has 6 elements, job produced 10, job consumed 4
-C: buffer has 5 elements,job produced 10, job consumed 5
+P: ProcessID#9, Insertion index4, buffer has 6 elements left.
+Job produced 10 in total, job consumed 4 in total
+C: processID#5 is consumed, index5, buffer has 5 elements left.
+Job produced 10 in total, job consumed 5 in total
 Running: #5 for 3 sec ...
-P: buffer has 6 elements, job produced 11, job consumed 5
-P: buffer has 7 elements, job produced 12, job consumed 5
-P: buffer has 8 elements, job produced 13, job consumed 5
-C: buffer has 7 elements,job produced 13, job consumed 6
+P: ProcessID#10, Insertion index5, buffer has 6 elements left.
+Job produced 11 in total, job consumed 5 in total
+P: ProcessID#11, Insertion index1, buffer has 7 elements left.
+Job produced 12 in total, job consumed 5 in total
+P: ProcessID#12, Insertion index5, buffer has 8 elements left.
+Job produced 13 in total, job consumed 5 in total
+C: processID#10 is consumed, index7, buffer has 7 elements left.
+Job produced 13 in total, job consumed 6 in total
 Running: #10 for 2 sec ...
-P: buffer has 8 elements, job produced 14, job consumed 6
-P: buffer has 9 elements, job produced 15, job consumed 6
-C: buffer has 8 elements,job produced 15, job consumed 7
+P: ProcessID#13, Insertion index5, buffer has 8 elements left.
+Job produced 14 in total, job consumed 6 in total
+P: ProcessID#14, Insertion index1, buffer has 9 elements left.
+Job produced 15 in total, job consumed 6 in total
+C: processID#9 is consumed, index8, buffer has 8 elements left.
+Job produced 15 in total, job consumed 7 in total
 Running: #9 for 3 sec ...
-P: buffer has 9 elements, job produced 16, job consumed 7
-P: buffer has 10 elements, job produced 17, job consumed 7
-C: buffer has 9 elements,job produced 17, job consumed 8
+P: ProcessID#15, Insertion index0, buffer has 9 elements left.
+Job produced 16 in total, job consumed 7 in total
+P: ProcessID#16, Insertion index7, buffer has 10 elements left.
+Job produced 17 in total, job consumed 7 in total
+C: processID#12 is consumed, index9, buffer has 9 elements left.
+Job produced 17 in total, job consumed 8 in total
 Running: #12 for 3 sec ...
-P: buffer has 10 elements, job produced 18, job consumed 8
-C: buffer has 9 elements,job produced 18, job consumed 9
+P: ProcessID#17, Insertion index0, buffer has 10 elements left.
+Job produced 18 in total, job consumed 8 in total
+C: processID#13 is consumed, index9, buffer has 9 elements left.
+Job produced 18 in total, job consumed 9 in total
 Running: #13 for 3 sec ...
-P: buffer has 10 elements, job produced 19, job consumed 9
-C: buffer has 9 elements,job produced 19, job consumed 10
+P: ProcessID#18, Insertion index7, buffer has 10 elements left.
+Job produced 19 in total, job consumed 9 in total
+C: processID#16 is consumed, index9, buffer has 9 elements left.
+Job produced 19 in total, job consumed 10 in total
 Running: #16 for 3 sec ...
-P: buffer has 10 elements, job produced 20, job consumed 10
-C: buffer has 9 elements,job produced 20, job consumed 11
+P: ProcessID#19, Insertion index9, buffer has 10 elements left.
+Job produced 20 in total, job consumed 10 in total
+C: processID#19 is consumed, index9, buffer has 9 elements left.
+Job produced 20 in total, job consumed 11 in total
 Running: #19 for 2 sec ...
-P: buffer has 10 elements, job produced 21, job consumed 11
-C: buffer has 9 elements,job produced 21, job consumed 12
+P: ProcessID#20, Insertion index0, buffer has 10 elements left.
+Job produced 21 in total, job consumed 11 in total
+C: processID#7 is consumed, index9, buffer has 9 elements left.
+Job produced 21 in total, job consumed 12 in total
 Running: #7 for 4 sec ...
-P: buffer has 10 elements, job produced 22, job consumed 12
-C: buffer has 9 elements,job produced 22, job consumed 13
+P: ProcessID#21, Insertion index9, buffer has 10 elements left.
+Job produced 22 in total, job consumed 12 in total
+C: processID#21 is consumed, index9, buffer has 9 elements left.
+Job produced 22 in total, job consumed 13 in total
 Running: #21 for 2 sec ...
-P: buffer has 10 elements, job produced 23, job consumed 13
-C: buffer has 9 elements,job produced 23, job consumed 14
+P: ProcessID#22, Insertion index8, buffer has 10 elements left.
+Job produced 23 in total, job consumed 13 in total
+C: processID#18 is consumed, index9, buffer has 9 elements left.
+Job produced 23 in total, job consumed 14 in total
 Running: #18 for 4 sec ...
-P: buffer has 10 elements, job produced 24, job consumed 14
-C: buffer has 9 elements,job produced 24, job consumed 15
+P: ProcessID#23, Insertion index4, buffer has 10 elements left.
+Job produced 24 in total, job consumed 14 in total
+C: processID#22 is consumed, index9, buffer has 9 elements left.
+Job produced 24 in total, job consumed 15 in total
 Running: #22 for 5 sec ...
-P: buffer has 10 elements, job produced 25, job consumed 15
-C: buffer has 9 elements,job produced 25, job consumed 16
+P: ProcessID#24, Insertion index9, buffer has 10 elements left.
+Job produced 25 in total, job consumed 15 in total
+C: processID#24 is consumed, index9, buffer has 9 elements left.
+Job produced 25 in total, job consumed 16 in total
 Running: #24 for 6 sec ...
-P: buffer has 10 elements, job produced 26, job consumed 16
-C: buffer has 9 elements,job produced 26, job consumed 17
+P: ProcessID#25, Insertion index9, buffer has 10 elements left.
+Job produced 26 in total, job consumed 16 in total
+C: processID#25 is consumed, index9, buffer has 9 elements left.
+Job produced 26 in total, job consumed 17 in total
 Running: #25 for 4 sec ...
-P: buffer has 10 elements, job produced 27, job consumed 17
-C: buffer has 9 elements,job produced 27, job consumed 18
+P: ProcessID#26, Insertion index9, buffer has 10 elements left.
+Job produced 27 in total, job consumed 17 in total
+C: processID#26 is consumed, index9, buffer has 9 elements left.
+Job produced 27 in total, job consumed 18 in total
 Running: #26 for 2 sec ...
-P: buffer has 10 elements, job produced 28, job consumed 18
-C: buffer has 9 elements,job produced 28, job consumed 19
+P: ProcessID#27, Insertion index8, buffer has 10 elements left.
+Job produced 28 in total, job consumed 18 in total
+C: processID#3 is consumed, index9, buffer has 9 elements left.
+Job produced 28 in total, job consumed 19 in total
 Running: #3 for 7 sec ...
-P: buffer has 10 elements, job produced 29, job consumed 19
-C: buffer has 9 elements,job produced 29, job consumed 20
+P: ProcessID#28, Insertion index9, buffer has 10 elements left.
+Job produced 29 in total, job consumed 19 in total
+C: processID#28 is consumed, index9, buffer has 9 elements left.
+Job produced 29 in total, job consumed 20 in total
 Running: #28 for 3 sec ...
-P: buffer has 10 elements, job produced 30, job consumed 20
-C: buffer has 9 elements,job produced 30, job consumed 21
+P: ProcessID#29, Insertion index8, buffer has 10 elements left.
+Job produced 30 in total, job consumed 20 in total
+C: processID#27 is consumed, index9, buffer has 9 elements left.
+Job produced 30 in total, job consumed 21 in total
 Running: #27 for 7 sec ...
-P: buffer has 10 elements, job produced 31, job consumed 21
-C: buffer has 9 elements,job produced 31, job consumed 22
+P: ProcessID#30, Insertion index9, buffer has 10 elements left.
+Job produced 31 in total, job consumed 21 in total
+C: processID#30 is consumed, index9, buffer has 9 elements left.
+Job produced 31 in total, job consumed 22 in total
 Running: #30 for 6 sec ...
-P: buffer has 10 elements, job produced 32, job consumed 22
-C: buffer has 9 elements,job produced 32, job consumed 23
+P: ProcessID#31, Insertion index9, buffer has 10 elements left.
+Job produced 32 in total, job consumed 22 in total
+C: processID#31 is consumed, index9, buffer has 9 elements left.
+Job produced 32 in total, job consumed 23 in total
 Running: #31 for 5 sec ...
-P: buffer has 10 elements, job produced 33, job consumed 23
-C: buffer has 9 elements,job produced 33, job consumed 24
+P: ProcessID#32, Insertion index8, buffer has 10 elements left.
+Job produced 33 in total, job consumed 23 in total
+C: processID#29 is consumed, index9, buffer has 9 elements left.
+Job produced 33 in total, job consumed 24 in total
 Running: #29 for 7 sec ...
-P: buffer has 10 elements, job produced 34, job consumed 24
-C: buffer has 9 elements,job produced 34, job consumed 25
+P: ProcessID#33, Insertion index8, buffer has 10 elements left.
+Job produced 34 in total, job consumed 24 in total
+C: processID#32 is consumed, index9, buffer has 9 elements left.
+Job produced 34 in total, job consumed 25 in total
 Running: #32 for 7 sec ...
-P: buffer has 10 elements, job produced 35, job consumed 25
-C: buffer has 9 elements,job produced 35, job consumed 26
+P: ProcessID#34, Insertion index9, buffer has 10 elements left.
+Job produced 35 in total, job consumed 25 in total
+C: processID#34 is consumed, index9, buffer has 9 elements left.
+Job produced 35 in total, job consumed 26 in total
 Running: #34 for 4 sec ...
-P: buffer has 10 elements, job produced 36, job consumed 26
-C: buffer has 9 elements,job produced 36, job consumed 27
+P: ProcessID#35, Insertion index9, buffer has 10 elements left.
+Job produced 36 in total, job consumed 26 in total
+C: processID#35 is consumed, index9, buffer has 9 elements left.
+Job produced 36 in total, job consumed 27 in total
 Running: #35 for 5 sec ...
-P: buffer has 10 elements, job produced 37, job consumed 27
-C: buffer has 9 elements,job produced 37, job consumed 28
+P: ProcessID#36, Insertion index9, buffer has 10 elements left.
+Job produced 37 in total, job consumed 27 in total
+C: processID#36 is consumed, index9, buffer has 9 elements left.
+Job produced 37 in total, job consumed 28 in total
 Running: #36 for 3 sec ...
-P: buffer has 10 elements, job produced 38, job consumed 28
-C: buffer has 9 elements,job produced 38, job consumed 29
+P: ProcessID#37, Insertion index9, buffer has 10 elements left.
+Job produced 38 in total, job consumed 28 in total
+C: processID#37 is consumed, index9, buffer has 9 elements left.
+Job produced 38 in total, job consumed 29 in total
 Running: #37 for 5 sec ...
-P: buffer has 10 elements, job produced 39, job consumed 29
-C: buffer has 9 elements,job produced 39, job consumed 30
+P: ProcessID#38, Insertion index9, buffer has 10 elements left.
+Job produced 39 in total, job consumed 29 in total
+C: processID#38 is consumed, index9, buffer has 9 elements left.
+Job produced 39 in total, job consumed 30 in total
 Running: #38 for 5 sec ...
-P: buffer has 10 elements, job produced 40, job consumed 30
-C: buffer has 9 elements,job produced 40, job consumed 31
+P: ProcessID#39, Insertion index9, buffer has 10 elements left.
+Job produced 40 in total, job consumed 30 in total
+C: processID#39 is consumed, index9, buffer has 9 elements left.
+Job produced 40 in total, job consumed 31 in total
 Running: #39 for 4 sec ...
-P: buffer has 10 elements, job produced 41, job consumed 31
-C: buffer has 9 elements,job produced 41, job consumed 32
+P: ProcessID#40, Insertion index5, buffer has 10 elements left.
+Job produced 41 in total, job consumed 31 in total
+C: processID#33 is consumed, index9, buffer has 9 elements left.
+Job produced 41 in total, job consumed 32 in total
 Running: #33 for 7 sec ...
-P: buffer has 10 elements, job produced 42, job consumed 32
-C: buffer has 9 elements,job produced 42, job consumed 33
+P: ProcessID#41, Insertion index9, buffer has 10 elements left.
+Job produced 42 in total, job consumed 32 in total
+C: processID#41 is consumed, index9, buffer has 9 elements left.
+Job produced 42 in total, job consumed 33 in total
 Running: #41 for 7 sec ...
-P: buffer has 10 elements, job produced 43, job consumed 33
-C: buffer has 9 elements,job produced 43, job consumed 34
+P: ProcessID#42, Insertion index4, buffer has 10 elements left.
+Job produced 43 in total, job consumed 33 in total
+C: processID#1 is consumed, index9, buffer has 9 elements left.
+Job produced 43 in total, job consumed 34 in total
 Running: #1 for 8 sec ...
-P: buffer has 10 elements, job produced 44, job consumed 34
-C: buffer has 9 elements,job produced 44, job consumed 35
+P: ProcessID#43, Insertion index9, buffer has 10 elements left.
+Job produced 44 in total, job consumed 34 in total
+C: processID#43 is consumed, index9, buffer has 9 elements left.
+Job produced 44 in total, job consumed 35 in total
 Running: #43 for 4 sec ...
-P: buffer has 10 elements, job produced 45, job consumed 35
-C: buffer has 9 elements,job produced 45, job consumed 36
+P: ProcessID#44, Insertion index9, buffer has 10 elements left.
+Job produced 45 in total, job consumed 35 in total
+C: processID#44 is consumed, index9, buffer has 9 elements left.
+Job produced 45 in total, job consumed 36 in total
 Running: #44 for 5 sec ...
-P: buffer has 10 elements, job produced 46, job consumed 36
-C: buffer has 9 elements,job produced 46, job consumed 37
+P: ProcessID#45, Insertion index9, buffer has 10 elements left.
+Job produced 46 in total, job consumed 36 in total
+C: processID#45 is consumed, index9, buffer has 9 elements left.
+Job produced 46 in total, job consumed 37 in total
 Running: #45 for 3 sec ...
-P: buffer has 10 elements, job produced 47, job consumed 37
-C: buffer has 9 elements,job produced 47, job consumed 38
+P: ProcessID#46, Insertion index9, buffer has 10 elements left.
+Job produced 47 in total, job consumed 37 in total
+C: processID#46 is consumed, index9, buffer has 9 elements left.
+Job produced 47 in total, job consumed 38 in total
 Running: #46 for 7 sec ...
-P: buffer has 10 elements, job produced 48, job consumed 38
-C: buffer has 9 elements,job produced 48, job consumed 39
+P: ProcessID#47, Insertion index0, buffer has 10 elements left.
+Job produced 48 in total, job consumed 38 in total
+C: processID#11 is consumed, index9, buffer has 9 elements left.
+Job produced 48 in total, job consumed 39 in total
 Running: #11 for 8 sec ...
-P: buffer has 10 elements, job produced 49, job consumed 39
-C: buffer has 9 elements,job produced 49, job consumed 40
+P: ProcessID#48, Insertion index9, buffer has 10 elements left.
+Job produced 49 in total, job consumed 39 in total
+C: processID#48 is consumed, index9, buffer has 9 elements left.
+Job produced 49 in total, job consumed 40 in total
 Running: #48 for 7 sec ...
-P: buffer has 10 elements, job produced 50, job consumed 40
-C: buffer has 9 elements,job produced 50, job consumed 41
+P: ProcessID#49, Insertion index9, buffer has 10 elements left.
+Job produced 50 in total, job consumed 40 in total
+C: processID#49 is consumed, index9, buffer has 9 elements left.
+Job produced 50 in total, job consumed 41 in total
 Running: #49 for 5 sec ...
-C: buffer has 8 elements,job produced 50, job consumed 42
+C: processID#14 is consumed, index8, buffer has 8 elements left.
+Job produced 50 in total, job consumed 42 in total
 Running: #14 for 8 sec ...
-C: buffer has 7 elements,job produced 50, job consumed 43
+C: processID#40 is consumed, index7, buffer has 7 elements left.
+Job produced 50 in total, job consumed 43 in total
 Running: #40 for 8 sec ...
-C: buffer has 6 elements,job produced 50, job consumed 44
+C: processID#23 is consumed, index6, buffer has 6 elements left.
+Job produced 50 in total, job consumed 44 in total
 Running: #23 for 9 sec ...
-C: buffer has 5 elements,job produced 50, job consumed 45
+C: processID#42 is consumed, index5, buffer has 5 elements left.
+Job produced 50 in total, job consumed 45 in total
 Running: #42 for 9 sec ...
-C: buffer has 4 elements,job produced 50, job consumed 46
+C: processID#4 is consumed, index4, buffer has 4 elements left.
+Job produced 50 in total, job consumed 46 in total
 Running: #4 for 10 sec ...
-C: buffer has 3 elements,job produced 50, job consumed 47
+C: processID#15 is consumed, index3, buffer has 3 elements left.
+Job produced 50 in total, job consumed 47 in total
 Running: #15 for 10 sec ...
-C: buffer has 2 elements,job produced 50, job consumed 48
+C: processID#17 is consumed, index2, buffer has 2 elements left.
+Job produced 50 in total, job consumed 48 in total
 Running: #17 for 10 sec ...
-C: buffer has 1 elements,job produced 50, job consumed 49
+C: processID#20 is consumed, index1, buffer has 1 elements left.
+Job produced 50 in total, job consumed 49 in total
 Running: #20 for 10 sec ...
-C: buffer has 0 elements,job produced 50, job consumed 50
+C: processID#47 is consumed, index0, buffer has 0 elements left.
+Job produced 50 in total, job consumed 50 in total
 Running: #47 for 10 sec ...
-Average response time: 42089.76 milliseconds.
-Average turn around time: 47470.90 milliseconds
+Average response time: 42084.80 milliseconds.
+Average turn around time: 47465.48 milliseconds

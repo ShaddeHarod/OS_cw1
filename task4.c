@@ -72,7 +72,7 @@ void *producer(void * arr){
 			if(addHere(my_Arr, &p, pos) == 1){exit(-1);}
 			int tempProducer = my_Arr -> count;
 			countJobs++;
-			printf("P: buffer has %d elements, job produced %d, job consumed %d\n", tempProducer, countJobs, countJobsConsumed);
+			printf("P: ProcessID#%d, Insertion index%d, buffer has %d elements left.\nJob produced %d in total, job consumed %d in total\n", p.pid,pos,tempProducer, countJobs, countJobsConsumed);
 			sem_post(&sync);
 			if(tempProducer == 1) {sem_post(&delay_consumer);}
 		}
@@ -89,10 +89,10 @@ void *consumer(void * arr){
 		
 		sem_wait(&sync);
 		e = my_Arr ->e[getCount(my_Arr) - 1];
-		removeLast(my_Arr);
 		countJobsConsumed++;
+		printf("C: processID#%d is consumed, index%d, buffer has %d elements left.\nJob produced %d in total, job consumed %d in total\n",e.pid,(getCount(my_Arr) - 1),(getCount(my_Arr) - 1),countJobs, countJobsConsumed);
+		removeLast(my_Arr);
 		int tempConsumer = getCount(my_Arr);
-		printf("C: buffer has %d elements,job produced %d, job consumed %d\n", tempConsumer,countJobs, countJobsConsumed);
 		sem_post(&sync);
 		//response time
 		gettimeofday(&end_S, NULL);
