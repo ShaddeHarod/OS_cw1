@@ -9,10 +9,16 @@ double responseTime[MAX_PROCESSES];
 double turnaroundTime[MAX_PROCESSES];
 
 void generatePQ(struct queue **PQ){
-
-	struct element p = generateProcess();
-	printf("New process has priority %d\n",p.pid_priority);
-	if(addFirst(PQ[p.pid_priority], &p) != 1){printf("PQ %d: add new\n", p.pid_priority);}
+	for(int j = 0; j < MAX_PROCESSES; j++){
+		struct element p = generateProcess();
+		printf("New process has priority %d\n",p.pid_priority);
+		if(addFirst(PQ[p.pid_priority], &p) != 1){printf("PQ %d: add new\n", p.pid_priority);}
+		for(int i = 0; i < PRIORITY;i++){
+			printf("Q #%d\n",i);
+			printAll(PQ[i]);
+		}
+	}	
+	
 }
 
 
@@ -24,7 +30,7 @@ void runPQ(struct queue **my_Arr){
 		
 	for(i = 0; i < PRIORITY;i++){
 		int numOfEnd = getCount(my_Arr[i]);
-		int counter = 0;
+		int counter = numOfEnd - 1;
 		
 		while(numOfEnd != 0){
 			if(responseTime[my_Arr[i] -> e[counter].pid] == 0){
@@ -56,7 +62,7 @@ void runPQ(struct queue **my_Arr){
 
 int main(){
 	
-	int i,j;
+	int i;
 	double temp,averageResponseTime,averageTurnAroundTime;
 	//these two are for calculating the response and turnaround average time
 	//my_Arr in this file represents a struct queue pointer array.
@@ -71,13 +77,7 @@ int main(){
 	}
 	//Generating stage
 	printf("Generating processes for PQ ...\n");
-	for(j = 0; j < MAX_PROCESSES; j++){
-		generatePQ(my_Arr);
-		for(i = 0; i < PRIORITY;i++){
-			printf("Q #%d\n",i);
-			printAll(my_Arr[i]);
-		}
-	}	
+	generatePQ(my_Arr);
 	//run stage
 	printf("Running the processes using PQ ...\n");
 	runPQ(my_Arr);

@@ -1,23 +1,28 @@
 #define MAX_NUMBER_OF_JOBS 50
-#define MAX_BUFFER_SIZE 10
+#define MAX_BUFFER_SIZE 30
+#define MAX_BUFFER_SIZE_EACH (MAX_BUFFER_SIZE / PRIORITY)
 #define NUMBER_OF_CONSUMER 4
 
 #include "coursework.h"
 #include <pthread.h>
 #include <semaphore.h>
 
-sem_t sync,empty,full;
+sem_t sync,full, delay_producer;
 
 
 int countJobs,countJobsConsumed;
 
 double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
+//below arrays are for checking whether producer sleeps because of full queue.
+int fullCheck[PRIORITY];
+int queueProcessNumber[PRIORITY];
 
 struct queue **_Arr;
 
 void * producer(void * i);
 void * consumer(void * index);
+
 
 
 
@@ -30,8 +35,8 @@ int main(){
 	pthread_t tConsumer[NUMBER_OF_CONSUMER];
 
 	sem_init(&sync, 0, 1);
-	sem_init(&empty, 0, MAX_BUFFER_SIZE);
 	sem_init(&full, 0, 0);
+	sem_init(&delay_producer, 0, 0);
 
 
 
@@ -39,7 +44,7 @@ int main(){
 	_Arr = (struct queue**)malloc(sizeof(struct queue *) * PRIORITY);
 	for(i = 0; i < PRIORITY;i++){ 
 		_Arr[i] = (struct queue*)malloc(sizeof(struct queue));
-		if(init(_Arr[i], MAX_BUFFER_SIZE) == 1){
+		if(init(_Arr[i], MAX_BUFFER_SIZE_EACH) == 1){
 			exit(-1);
 		}
 	}
@@ -67,10 +72,15 @@ int main(){
 
 void * producer(void * i){
 	while(countJobs < MAX_NUMBER_OF_JOBS){
-			sem_wait(&empty);
-			struct element p = generateProcess();
+			struct element p = generateProcess();			
+			if(queueProcessNumber[p.pid_priority] == MAX_BUFFER_SIZE_EACH) {
+				fullCheck[p.pid_priority] = 1;
+				sem_wait(&delay_producer);
+			}
+			
 			sem_wait(&sync);
 			countJobs++;
+			queueProcessNumber[p.pid_priority]++;
 			if(addFirst(_Arr[p.pid_priority], &p) != 1){
 				printf("\nProducer is operating on buffer %d, processID:%d\nJob produced %d in total, job consumed %d in total\n", p.pid_priority,p.pid,countJobs, countJobsConsumed);
 			}
@@ -94,12 +104,12 @@ void * consumer(void * index) {
 			break;
 		}
 		sem_wait(&sync);
-		for(j = 0; j < PRIORITY; j++) {
-			if(getCount(_Arr[j]) != 0){
-				my_Arr = _Arr[j];
-				break;			
-			}
-		}
+		for(j = 0; j < PRIORITY && getCount(_Arr[j]) == 0; j++);
+		if(j >= PRIORITY) { 
+			sem_post(&full);
+			sem_post(&sync);
+			continue;
+		}else{my_Arr = _Arr[j];}
 		processIndex = getCount(my_Arr) - 1;
 		e = my_Arr -> e[processIndex];
 		removeLast(my_Arr);
@@ -112,18 +122,22 @@ void * consumer(void * index) {
 			gettimeofday(&end_E,NULL);
 			sem_wait(&sync);
 			countJobsConsumed++;
+			queueProcessNumber[j]--;
 			printf("\nConsumerID:%d on buffer %d. Process previous index: %d, Process#%d has finished.\nJob produced %d in total, job consumed %d in total\n",i,e.pid_priority,processIndex,e.pid,countJobs, countJobsConsumed);
-			printf("\nProcesses Distribution:\nqueue1:%d processes, queue2:%d processes, queue2: %d processes\n",getCount(_Arr[0]),getCount(_Arr[1]), getCount(_Arr[2])); 
+			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0], queueProcessNumber[1],queueProcessNumber[2]); 
 			if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
+			if(fullCheck[j] == 1) {
+				fullCheck[j] = 0;
+				sem_post(&delay_producer);
+			}
 			sem_post(&sync);
-			sem_post(&empty);
 			t= getDifferenceInMilliSeconds(e.created_time, end_E);
 			turnaroundTime[e.pid] = (double)t;
 		}else {
 			sem_wait(&sync);
 			addLast(my_Arr, &e);
 			printf("\nConsumerID:%d on buffer %d. Process#%d has been put back.\n", i, e.pid_priority, e.pid); 
-			printf("\nProcesses Distribution:\nqueue1:%d processes, queue2:%d processes, queue2: %d processes\n",getCount(_Arr[0]),getCount(_Arr[1]), getCount(_Arr[2]));
+			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0],queueProcessNumber[1],queueProcessNumber[2]);
 			sem_post(&sync);
 			sem_post(&full);
 		}
