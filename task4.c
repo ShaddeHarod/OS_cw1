@@ -28,7 +28,7 @@ int main(){
 	countJobsConsumed = 0;
 	sem_init(&sync,0,1);
 	sem_init(&delay_consumer, 0, 0);
-	//these two are for calculating the response and turnaround average time
+	
 
 
 	struct queue *my_Arr  = (struct queue*)malloc(sizeof(struct queue));

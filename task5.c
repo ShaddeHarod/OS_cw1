@@ -6,7 +6,7 @@
 #include "coursework.h"
 #include <pthread.h>
 #include <semaphore.h>
-
+//delay_producer is for making producer to sleep when one of the queues is full
 sem_t sync,full, delay_producer;
 
 
@@ -14,7 +14,9 @@ int countJobs,countJobsConsumed;
 
 double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
-//below arrays are for checking whether producer sleeps because of full queue.
+
+/*if the corresponding queue is full, producer should set the fullCheck[i](i is the queue's priority)from 0 to 1.
+ consumer will check the element when it consumes a process, and set it to 0 again.*/
 int fullCheck[PRIORITY];
 int queueProcessNumber[PRIORITY];
 
@@ -40,7 +42,7 @@ int main(){
 
 
 
-	
+
 	_Arr = (struct queue**)malloc(sizeof(struct queue *) * PRIORITY);
 	for(i = 0; i < PRIORITY;i++){ 
 		_Arr[i] = (struct queue*)malloc(sizeof(struct queue));
@@ -72,7 +74,8 @@ int main(){
 
 void * producer(void * i){
 	while(countJobs < MAX_NUMBER_OF_JOBS){
-			struct element p = generateProcess();			
+			struct element p = generateProcess();		
+			//if the queue which p belongs to is full, producer should sleep	
 			if(queueProcessNumber[p.pid_priority] == MAX_BUFFER_SIZE_EACH) {
 				fullCheck[p.pid_priority] = 1;
 				sem_wait(&delay_producer);
@@ -141,7 +144,7 @@ void * consumer(void * index) {
 			sem_post(&sync);
 			sem_post(&full);
 		}
-		
+		//if the corresponding turnaround time for the process has not been recorded.
 		if(responseTime[e.pid] == 0){
 			r= getDifferenceInMilliSeconds(e.created_time, end_S);
 			responseTime[e.pid] =  (double)r;

@@ -1,8 +1,7 @@
 
 #define MAX_PROCESSES 5
 #include "coursework.h"
-#define true 1
-#define false 0
+
 
 
 double responseTime[MAX_PROCESSES];
