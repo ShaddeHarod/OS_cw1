@@ -116,7 +116,7 @@ void * consumer(void * index) {
 		processIndex = getCount(my_Arr) - 1;
 		e = my_Arr -> e[processIndex];
 		removeLast(my_Arr);
-		printf("\nConsumerID:%d on buffer %d. Process #%d taken to run.\n",i, e.pid_priority, e.pid);
+		printf("\nConsumerID:%d on buffer %d. Process #%d, index%d taken to run.\n",i, e.pid_priority, e.pid,processIndex);
 		sem_post(&sync);
 		
 		gettimeofday(&end_S,NULL);
@@ -139,7 +139,7 @@ void * consumer(void * index) {
 		}else {
 			sem_wait(&sync);
 			addLast(my_Arr, &e);
-			printf("\nConsumerID:%d on buffer %d. Process#%d has been put back.\n", i, e.pid_priority, e.pid); 
+			printf("\nConsumerID:%d on buffer %d. Process#%d has been put back to the end of the queue.\n", i, e.pid_priority, e.pid); 
 			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0],queueProcessNumber[1],queueProcessNumber[2]);
 			sem_post(&sync);
 			sem_post(&full);
