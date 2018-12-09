@@ -21,18 +21,20 @@ int init(struct queue *my_arr, int arr_size){
 }
 
 int addHere(struct queue *my_arr, struct element *new_e, int index){
-	int count = getCount(my_arr);
 	int i;
 
-	if(index > count || index < 0){
-		printf("The index is illegal\n");
-		return 1;
-	}else if(count == my_arr -> max){
+	if(getCount(my_arr) == my_arr -> max){
 		printf("The queue is full.\n");
 		return 1;
+	}else if(index >= my_arr -> max || index < 0){
+		printf("The index is illegal\n");
+		return 1;
+	}else if(index < my_arr -> max && index > getCount(my_arr)){	
+		printf("The element will be put at continuous position.\n");
+		index = getCount(my_arr);
 	}
 	
-	for(i = count; i >= index + 1; i--){
+	for(i = getCount(my_arr); i >= index + 1; i--){
 		my_arr -> e[i] = my_arr -> e[i - 1]; 
 	}
 	my_arr -> e[index] = (*new_e);
