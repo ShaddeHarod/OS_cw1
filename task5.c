@@ -71,7 +71,7 @@ int main(){
 }
 
 
-
+//Last is the header, First is the trailer
 void * producer(void * i){
 	while(countJobs < MAX_NUMBER_OF_JOBS){
 			struct element p = generateProcess();		
@@ -93,6 +93,7 @@ void * producer(void * i){
 	return NULL;
 }
 void * consumer(void * index) {
+	//the consumer implements FIFO in each queue.
 	int i = *(int *)index;
 	int j;
 	long int r, t;
@@ -126,7 +127,7 @@ void * consumer(void * index) {
 			sem_wait(&sync);
 			countJobsConsumed++;
 			queueProcessNumber[j]--;
-			printf("\nConsumerID:%d on buffer %d. Process previous index: %d, Process#%d has finished.\nJob produced %d in total, job consumed %d in total\n",i,e.pid_priority,processIndex,e.pid,countJobs, countJobsConsumed);
+			printf("\nConsumerID:%d on buffer %d. Process#%d has finished.\nJob produced %d in total, job consumed %d in total\n",i,e.pid_priority,e.pid,countJobs, countJobsConsumed);
 			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0], queueProcessNumber[1],queueProcessNumber[2]); 
 			if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
 			if(fullCheck[j] == 1) {
@@ -138,7 +139,7 @@ void * consumer(void * index) {
 			turnaroundTime[e.pid] = (double)t;
 		}else {
 			sem_wait(&sync);
-			addLast(my_Arr, &e);
+			addFirst(my_Arr, &e);
 			printf("\nConsumerID:%d on buffer %d. Process#%d has been put back to the end of the queue.\n", i, e.pid_priority, e.pid); 
 			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0],queueProcessNumber[1],queueProcessNumber[2]);
 			sem_post(&sync);
