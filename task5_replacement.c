@@ -1,13 +1,12 @@
 #define MAX_NUMBER_OF_JOBS 50
-#define MAX_BUFFER_SIZE 30
-#define MAX_BUFFER_SIZE_EACH (MAX_BUFFER_SIZE / PRIORITY)
+#define MAX_BUFFER_SIZE 10
 #define NUMBER_OF_CONSUMER 4
 
 #include "coursework.h"
 #include <pthread.h>
 #include <semaphore.h>
 //delay_producer is for making producer to sleep when one of the queues is full
-sem_t sync,full, delay_producer;
+sem_t sync,full,empty;
 
 
 int countJobs,countJobsConsumed;
@@ -16,8 +15,8 @@ double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
 
 /*if the corresponding queue is full, producer should set the fullCheck[i](i is the queue's priority)from 0 to 1.
- consumer will check the element when it consumes a process, and set it to 0 again.*/
-int fullCheck[PRIORITY];
+ consumer will check the element when it consumes a process, and set it to 0 again.
+int fullCheck[PRIORITY];*/
 int queueProcessNumber[PRIORITY];
 
 struct queue **_Arr;
@@ -38,7 +37,7 @@ int main(){
 
 	sem_init(&sync, 0, 1);
 	sem_init(&full, 0, 0);
-	sem_init(&delay_producer, 0, 0);
+	sem_init(&empty, 0, MAX_BUFFER_SIZE);
 
 
 
@@ -47,11 +46,12 @@ int main(){
 	printf("Max buffer size: %d\nMax number of jobs: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);
 	for(i = 0; i < PRIORITY;i++){ 
 		_Arr[i] = (struct queue*)malloc(sizeof(struct queue));
-		if(init(_Arr[i], MAX_BUFFER_SIZE_EACH) == 1){
+		if(init(_Arr[i], MAX_BUFFER_SIZE) == 1){
 			exit(-1);
 		}
 	}
-	printf("Max buffer size: %d\nMax number of jobs: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);
+
+	
 	
 	pthread_create(&tProducer, NULL, producer, (void *)&i);
 	for(i = 0; i < NUMBER_OF_CONSUMER; i++) { pthread_create(&tConsumer[i], NULL, consumer, (void *)&producerID[i]);}
@@ -78,10 +78,11 @@ void * producer(void * i){
 	while(countJobs < MAX_NUMBER_OF_JOBS){
 			struct element p = generateProcess();		
 			//if the queue which p belongs to is full, producer should sleep	
-			if(queueProcessNumber[p.pid_priority] == MAX_BUFFER_SIZE_EACH) {
+			sem_wait(&empty);
+			/*if(queueProcessNumber[p.pid_priority] == MAX_BUFFER_SIZE) {
 				fullCheck[p.pid_priority] = 1;
 				sem_wait(&delay_producer);
-			}
+			}*/
 			
 			sem_wait(&sync);
 			countJobs++;
@@ -132,11 +133,12 @@ void * consumer(void * index) {
 			printf("\nConsumerID:%d on buffer %d. Process#%d has finished.\nJob produced %d in total, job consumed %d in total\n",i,e.pid_priority,e.pid,countJobs, countJobsConsumed);
 			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0], queueProcessNumber[1],queueProcessNumber[2]); 
 			if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
-			if(fullCheck[j] == 1) {
+			/*if(fullCheck[j] == 1) {
 				fullCheck[j] = 0;
 				sem_post(&delay_producer);
-			}
+			}*/
 			sem_post(&sync);
+			sem_post(&empty);
 			t= getDifferenceInMilliSeconds(e.created_time, end_E);
 			turnaroundTime[e.pid] = (double)t;
 		}else {

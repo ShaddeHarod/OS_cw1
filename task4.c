@@ -34,7 +34,7 @@ int main(){
 	struct queue *my_Arr  = (struct queue*)malloc(sizeof(struct queue));
 	
 	if(init(my_Arr, MAX_BUFFER_SIZE) == 1){exit(-1);}
-	else {printf("Max buffer: %d\nMAX_BUFFER_SIZE: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);}
+	else {printf("Max buffer size: %d\nMax number of jobs: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);}
 	
 	pthread_create(&tConsumer, NULL, consumer, (void *) my_Arr);
 	pthread_create(&tProducer, NULL, producer, (void *) my_Arr);
