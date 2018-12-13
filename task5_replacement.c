@@ -15,6 +15,7 @@ double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
 
 //for recording how many processes in the queue(including running)
+/*lalala*/
 int queueProcessNumber[PRIORITY];
 
 struct queue **_Arr;
