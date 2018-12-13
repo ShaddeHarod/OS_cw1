@@ -1,3 +1,4 @@
+//This is the version for MAX_BUFFER_SIZE is 30
 #define MAX_NUMBER_OF_JOBS 50
 #define MAX_BUFFER_SIZE 30
 #define MAX_BUFFER_SIZE_EACH (MAX_BUFFER_SIZE / PRIORITY)
@@ -51,7 +52,6 @@ int main(){
 			exit(-1);
 		}
 	}
-	printf("Max buffer size: %d\nMax number of jobs: %d\n", MAX_BUFFER_SIZE,MAX_NUMBER_OF_JOBS);
 	
 	pthread_create(&tProducer, NULL, producer, (void *)&i);
 	for(i = 0; i < NUMBER_OF_CONSUMER; i++) { pthread_create(&tConsumer[i], NULL, consumer, (void *)&producerID[i]);}
