@@ -14,9 +14,7 @@ int countJobs,countJobsConsumed;
 double responseTime[MAX_NUMBER_OF_JOBS];
 double turnaroundTime[MAX_NUMBER_OF_JOBS];
 
-/*if the corresponding queue is full, producer should set the fullCheck[i](i is the queue's priority)from 0 to 1.
- consumer will check the element when it consumes a process, and set it to 0 again.
-int fullCheck[PRIORITY];*/
+//for recording how many processes in the queue(including running)
 int queueProcessNumber[PRIORITY];
 
 struct queue **_Arr;
@@ -76,14 +74,8 @@ int main(){
 //Last is the header, First is the trailer
 void * producer(void * i){
 	while(countJobs < MAX_NUMBER_OF_JOBS){
-			struct element p = generateProcess();		
-			//if the queue which p belongs to is full, producer should sleep	
+			struct element p = generateProcess();			
 			sem_wait(&empty);
-			/*if(queueProcessNumber[p.pid_priority] == MAX_BUFFER_SIZE) {
-				fullCheck[p.pid_priority] = 1;
-				sem_wait(&delay_producer);
-			}*/
-			
 			sem_wait(&sync);
 			countJobs++;
 			queueProcessNumber[p.pid_priority]++;
@@ -133,10 +125,7 @@ void * consumer(void * index) {
 			printf("\nConsumerID:%d on buffer %d. Process#%d has finished.\nJob produced %d in total, job consumed %d in total\n",i,e.pid_priority,e.pid,countJobs, countJobsConsumed);
 			printf("\nProcesses Distribution(including running):\nqueue0:%d processes, queue1:%d processes, queue2: %d processes\n",queueProcessNumber[0], queueProcessNumber[1],queueProcessNumber[2]); 
 			if(countJobsConsumed >= MAX_NUMBER_OF_JOBS) {sem_post(&full);}
-			/*if(fullCheck[j] == 1) {
-				fullCheck[j] = 0;
-				sem_post(&delay_producer);
-			}*/
+			
 			sem_post(&sync);
 			sem_post(&empty);
 			t= getDifferenceInMilliSeconds(e.created_time, end_E);
